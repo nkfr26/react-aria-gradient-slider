@@ -22,7 +22,7 @@ function App() {
             <SliderThumb
               key={cs.id}
               index={index}
-              className="top-1/2 left-1/2 size-5 rounded-full border border-fg/10 bg-white outline-hidden ring-black transition-[width,height] cursor-grab dragging:cursor-grabbing border-2 border-white [box-shadow:0_0_0_1px_black,inset_0_0_0_1px_black]"
+              className={`top-1/2 left-1/2 size-5 rounded-full border border-fg/10 bg-white outline-hidden ring-black transition-[width,height] cursor-grab dragging:cursor-grabbing border-2 border-white ${selected?.id === cs.id ? "[box-shadow:0_0_0_2px_black,inset_0_0_0_2px_black]" : "[box-shadow:0_0_0_1px_grey,inset_0_0_0_1px_grey]"}`}
             >
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 font-medium text-base/6 sm:text-sm/6">
                 {cs.value}
