@@ -59,11 +59,7 @@ export function useCustomSlider(
                 state.getThumbMaxValue(index),
                 state.step,
               );
-              const color = state.getInterpolatedColor(
-                value,
-                props.mode,
-                realTimeTrackDraggingIndex.current,
-              );
+              const color = state.getInterpolatedColor(value, props.mode, index);
               return { ...cs, value, color };
             }
             return cs;
@@ -113,11 +109,11 @@ export function useCustomSlider(
 
       if (newColorStopIndex >= 0) {
         realTimeTrackDraggingIndex.current = newColorStopIndex;
-        state.setFocusedThumb(realTimeTrackDraggingIndex.current);
+        state.setFocusedThumb(newColorStopIndex);
         currentPointer.current = id;
 
         state.onChange(newColorStops);
-        state.setThumbDragging(realTimeTrackDraggingIndex.current, true);
+        state.setThumbDragging(newColorStopIndex, true);
 
         addGlobalListener(window, "pointerup", onUpTrack, false);
       } else {
@@ -127,13 +123,11 @@ export function useCustomSlider(
   };
 
   const onUpTrack = (e: PointerEvent) => {
-    const id = e.pointerId;
-    if (id === currentPointer.current) {
-      if (realTimeTrackDraggingIndex.current != null) {
+    if (e.pointerId === currentPointer.current) {
+      if (realTimeTrackDraggingIndex.current !== null) {
         state.setThumbDragging(realTimeTrackDraggingIndex.current, false);
         realTimeTrackDraggingIndex.current = null;
       }
-
       removeGlobalListener(window, "pointerup", onUpTrack, false);
     }
   };
