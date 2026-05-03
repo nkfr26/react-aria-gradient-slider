@@ -23,10 +23,7 @@ export function useCustomSliderThumb(
       },
       onPointerDown: (e: React.PointerEvent<FocusableElement>) => {
         sliderThumbAria.thumbProps.onPointerDown?.(e);
-        opts.setSelected?.((prev) => {
-          const colorStop = state.value[index];
-          return colorStop.id === prev?.id ? null : colorStop;
-        });
+        opts.setSelected?.(state.value[index]);
       },
     },
   };
