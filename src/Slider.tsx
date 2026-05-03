@@ -2,7 +2,11 @@ import { createContext, useContext, useRef } from "react";
 import { useNumberFormatter, mergeProps, useFocusRing, VisuallyHidden } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
 import { useCustomSlider, type CustomSliderProps } from "./useCustomSlider";
-import { useCustomSliderState, type CustomSliderStateOptions } from "./useCustomSliderState";
+import {
+  useCustomSliderState,
+  type ColorStops,
+  type CustomSliderStateOptions,
+} from "./useCustomSliderState";
 import type { Except } from "type-fest";
 import { useCustomSliderThumb } from "./useCustomSliderThumb";
 
@@ -10,6 +14,7 @@ type SliderContextValue = {
   state: ReturnType<typeof useCustomSliderState>;
   trackRef: React.RefObject<HTMLDivElement | null>;
   trackProps: React.HTMLAttributes<HTMLDivElement>;
+  setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
 };
 
 const SliderContext = createContext<SliderContextValue | null>(null);
@@ -31,11 +36,17 @@ export function Slider(props: SliderProps) {
     numberFormatter,
   });
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const { groupProps, trackProps } = useCustomSlider(props, state, trackRef);
+  const { groupProps, trackProps } = useCustomSlider(
+    { ...props, label: props.label ?? "Gradient Slider" },
+    state,
+    trackRef,
+  );
   return (
-    <SliderContext.Provider value={{ state, trackRef, trackProps }}>
+    <SliderContext.Provider value={{ state, trackRef, trackProps, setSelected: props.setSelected }}>
       <div
-        {...mergeProps(filterDOMProps(props), groupProps)}
+        {...mergeProps(filterDOMProps(props), groupProps, {
+          onPointerDown: trackProps.onPointerDown,
+        })}
         className={props.className}
         data-orientation={state.orientation}
         data-disabled={state.isDisabled || undefined}
@@ -54,10 +65,10 @@ export function SliderTrack(props: React.HTMLAttributes<HTMLDivElement>) {
 type SliderThumbProps = React.HTMLAttributes<HTMLDivElement> & { index: number };
 
 export function SliderThumb({ index, ...props }: SliderThumbProps) {
-  const { state, trackRef } = useSliderContext();
+  const { state, trackRef, setSelected } = useSliderContext();
   const inputRef = useRef(null);
   const { thumbProps, inputProps, isDragging } = useCustomSliderThumb(
-    { index, trackRef, inputRef },
+    { index, trackRef, inputRef, setSelected },
     state,
   );
   const { focusProps } = useFocusRing();
