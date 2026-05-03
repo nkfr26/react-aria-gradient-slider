@@ -20,13 +20,28 @@ export type CustomSliderStateOptions = Except<
 };
 
 export function useCustomSliderState(props: CustomSliderStateOptions) {
+  const { onChangeEnd, ...restProps } = props;
+
+  const latestColorStopsRef = useRef<ColorStops>(props.value);
+
   const state = useSliderState({
-    ...props,
+    ...restProps,
     value: props.value.map((cs) => cs.value),
     onChange: (value) => {
+      latestColorStopsRef.current = latestColorStopsRef.current.map((cs, i) => ({
+        ...cs,
+        value: value[i],
+      })) as ColorStops;
       props.onChange((prev) => prev.map((cs, i) => ({ ...cs, value: value[i] })) as ColorStops);
     },
   });
+
+  const value = props.value;
+  const onChange: React.Dispatch<React.SetStateAction<ColorStops>> = (value) => {
+    const newColorStops = typeof value === "function" ? value(latestColorStopsRef.current) : value;
+    latestColorStopsRef.current = newColorStops;
+    props.onChange(newColorStops);
+  };
 
   const draggingRef = useRef(new Set<number>());
 
@@ -38,9 +53,13 @@ export function useCustomSliderState(props: CustomSliderStateOptions) {
     if (dragging) {
       draggingRef.current.add(index);
     } else {
-      draggingRef.current.delete(index);
+      if (!draggingRef.current.delete(index)) return;
     }
     state.setThumbDragging(index, dragging);
+
+    if (draggingRef.current.size === 0) {
+      onChangeEnd?.(latestColorStopsRef.current.map((cs) => cs.value));
+    }
   };
 
   const getInterpolatedColor = (value: number, mode: "oklab" | "oklch", filterIndex?: number) => {
@@ -56,8 +75,8 @@ export function useCustomSliderState(props: CustomSliderStateOptions) {
     ...state,
     isThumbDragging,
     setThumbDragging,
-    value: props.value,
-    onChange: props.onChange,
+    value,
+    onChange,
     getInterpolatedColor,
   };
 }

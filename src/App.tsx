@@ -13,6 +13,7 @@ function App() {
       <Slider
         value={value}
         onChange={setValue}
+        onChangeEnd={(value) => console.log(value)}
         mode={"oklab"}
         setSelected={setSelected}
         className="group relative flex touch-none select-none flex-col disabled:opacity-50 orientation-horizontal:w-full orientation-horizontal:min-w-fit orientation-horizontal:gap-y-2 orientation-vertical:h-full orientation-vertical:min-h-fit orientation-vertical:w-1.5 orientation-vertical:items-center orientation-vertical:gap-y-2 py-1.75 mt-5.5 cursor-copy px-2.5"
