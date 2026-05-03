@@ -7,6 +7,7 @@ import type { ColorStops, useCustomSliderState } from "./useCustomSliderState";
 
 export type CustomSliderProps = Except<AriaSliderProps, "value" | "onChange"> & {
   mode: "oklab" | "oklch";
+  setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
 };
 
 export function useCustomSlider(
@@ -110,6 +111,7 @@ export function useCustomSlider(
 
         state.onChange(newColorStops);
         state.setThumbDragging(newColorStopIndex, true);
+        props.setSelected?.(newColorStops[newColorStopIndex]);
 
         addGlobalListener(window, "pointerup", onUpTrack, false);
       } else {

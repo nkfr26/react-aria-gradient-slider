@@ -1,8 +1,13 @@
 import { useSliderThumb, type AriaSliderThumbOptions } from "react-aria";
-import type { useCustomSliderState } from "./useCustomSliderState";
+import type { ColorStops, useCustomSliderState } from "./useCustomSliderState";
+import type { FocusableElement } from "@react-types/shared";
+
+type CustomSliderThumbOptions = AriaSliderThumbOptions & {
+  setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
+};
 
 export function useCustomSliderThumb(
-  opts: AriaSliderThumbOptions,
+  opts: CustomSliderThumbOptions,
   state: ReturnType<typeof useCustomSliderState>,
 ) {
   const sliderThumbAria = useSliderThumb(opts, state);
@@ -15,6 +20,13 @@ export function useCustomSliderThumb(
         ...sliderThumbAria.thumbProps.style,
         background: state.value[index].color,
         zIndex: state.getThumbPercent(index + 1) === 1 ? state.values.length - index : undefined,
+      },
+      onPointerDown: (e: React.PointerEvent<FocusableElement>) => {
+        sliderThumbAria.thumbProps.onPointerDown?.(e);
+        opts.setSelected?.((prev) => {
+          const colorStop = state.value[index];
+          return colorStop.id === prev?.id ? null : colorStop;
+        });
       },
     },
   };
