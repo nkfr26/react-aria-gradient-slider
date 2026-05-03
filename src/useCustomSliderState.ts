@@ -21,14 +21,12 @@ export type CustomSliderStateOptions = Except<
 
 export function useCustomSliderState(props: CustomSliderStateOptions) {
   const { onChangeEnd, ...restProps } = props;
-
-  const latestColorStopsRef = useRef<ColorStops>(props.value);
-
+  const currentColorStopsRef = useRef<ColorStops>(props.value);
   const state = useSliderState({
     ...restProps,
     value: props.value.map((cs) => cs.value),
     onChange: (value) => {
-      latestColorStopsRef.current = latestColorStopsRef.current.map((cs, i) => ({
+      currentColorStopsRef.current = currentColorStopsRef.current.map((cs, i) => ({
         ...cs,
         value: value[i],
       })) as ColorStops;
@@ -38,8 +36,8 @@ export function useCustomSliderState(props: CustomSliderStateOptions) {
 
   const value = props.value;
   const onChange: React.Dispatch<React.SetStateAction<ColorStops>> = (value) => {
-    const newColorStops = typeof value === "function" ? value(latestColorStopsRef.current) : value;
-    latestColorStopsRef.current = newColorStops;
+    const newColorStops = typeof value === "function" ? value(currentColorStopsRef.current) : value;
+    currentColorStopsRef.current = newColorStops;
     props.onChange(newColorStops);
   };
 
@@ -53,12 +51,14 @@ export function useCustomSliderState(props: CustomSliderStateOptions) {
     if (dragging) {
       draggingRef.current.add(index);
     } else {
-      if (!draggingRef.current.delete(index)) return;
+      if (!draggingRef.current.delete(index)) {
+        return;
+      }
     }
     state.setThumbDragging(index, dragging);
 
     if (draggingRef.current.size === 0) {
-      onChangeEnd?.(latestColorStopsRef.current.map((cs) => cs.value));
+      onChangeEnd?.(currentColorStopsRef.current.map((cs) => cs.value));
     }
   };
 
