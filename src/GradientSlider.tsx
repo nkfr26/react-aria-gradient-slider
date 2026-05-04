@@ -101,21 +101,21 @@ export function ColorStop({ index, ...props }: ColorStopProps) {
   );
 }
 
-type DeleteButtonProps = AriaButtonOptions<"button"> &
+type RemoveButtonProps = AriaButtonOptions<"button"> &
   React.HTMLAttributes<HTMLButtonElement> & { id: string };
 
-export function DeleteButton({ id, ...props }: DeleteButtonProps) {
+export function RemoveButton({ id, ...props }: RemoveButtonProps) {
   const { state } = useGradientSliderContext();
   const ref = useRef<HTMLButtonElement | null>(null);
   const { buttonProps } = useButton(
-    mergeProps(props, { isDisabled: !state.isColorStopDeletable }),
+    mergeProps(props, { isDisabled: !state.canRemoveColorStop }),
     ref,
   );
   return (
     <button
       {...buttonProps}
       className={props.className}
-      onPointerDown={() => state.deleteColorStop(id)}
+      onPointerDown={() => state.removeColorStop(id)}
       style={{ cursor: buttonProps.disabled ? "not-allowed" : "pointer" }}
     >
       {props.children}
