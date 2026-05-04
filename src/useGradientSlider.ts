@@ -1,20 +1,19 @@
 import { useRef, type RefObject } from "react";
-import { useSlider, useLocale, type AriaSliderProps, mergeProps, useMove } from "react-aria";
-import type { Except } from "type-fest";
-import { clamp, snapValueToStep } from "react-stately/private/utils/number";
+import { type AriaSliderProps, useSlider, useLocale, useMove, mergeProps } from "react-aria";
 import { useGlobalListeners } from "react-aria/private/utils/useGlobalListeners";
-import type { ColorStops, useCustomSliderState } from "./useCustomSliderState";
+import { clamp, snapValueToStep } from "react-stately/private/utils/number";
+import type { Except } from "type-fest";
+import type { ColorStops, useGradientSliderState } from "./useGradientSliderState";
 
-export type CustomSliderProps = Except<AriaSliderProps, "value" | "onChange"> & {
+export type AriaGradientSliderProps = Except<AriaSliderProps, "value" | "onChange"> & {
   mode: "oklab" | "oklch";
-  setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
 };
 
-export function useCustomSlider(
-  props: CustomSliderProps,
-  state: ReturnType<typeof useCustomSliderState>,
+export function useGradientSlider(
+  props: AriaGradientSliderProps,
+  state: ReturnType<typeof useGradientSliderState>,
   trackRef: RefObject<Element | null>,
-): ReturnType<typeof useSlider> {
+) {
   const sliderAria = useSlider(props, state, trackRef);
 
   const { direction } = useLocale();
@@ -115,7 +114,7 @@ export function useCustomSlider(
 
         state.onChange(newColorStops);
         state.setThumbDragging(newColorStopIndex, true);
-        props.setSelected?.(newColorStops[newColorStopIndex]);
+        state.setSelected?.(newColorStops[newColorStopIndex]);
 
         addGlobalListener(window, "pointerup", onUpTrack, false);
       } else {
@@ -151,6 +150,7 @@ export function useCustomSlider(
   return {
     ...sliderAria,
     trackProps: mergeProps(
+      // eslint-disable-next-line react-hooks/refs
       {
         ...sliderAria.trackProps,
         onMouseDown: undefined,
@@ -161,12 +161,9 @@ export function useCustomSlider(
           }
           onDownTrack(e, e.pointerId, e.clientX, e.clientY);
         },
-        style: {
-          ...sliderAria.trackProps.style,
-          background: generateBackground(),
-        },
       },
       moveProps,
     ),
+    background: generateBackground(),
   };
 }

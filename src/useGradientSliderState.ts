@@ -11,15 +11,16 @@ type ColorStop = {
 
 export type ColorStops = [ColorStop, ColorStop, ...ColorStop[]];
 
-export type CustomSliderStateOptions = Except<
+export type GradientSliderStateOptions = Except<
   SliderStateOptions<number[]>,
   "value" | "onChange"
 > & {
   value: ColorStops;
   onChange: React.Dispatch<React.SetStateAction<ColorStops>>;
+  setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
 };
 
-export function useCustomSliderState(props: CustomSliderStateOptions) {
+export function useGradientSliderState(props: GradientSliderStateOptions) {
   const { onChangeEnd, ...restProps } = props;
   const currentColorStopsRef = useRef<ColorStops>(props.value);
   const state = useSliderState({
@@ -34,7 +35,6 @@ export function useCustomSliderState(props: CustomSliderStateOptions) {
     },
   });
 
-  const value = props.value;
   const onChange: React.Dispatch<React.SetStateAction<ColorStops>> = (value) => {
     const newColorStops = typeof value === "function" ? value(currentColorStopsRef.current) : value;
     currentColorStopsRef.current = newColorStops;
@@ -71,12 +71,23 @@ export function useCustomSliderState(props: CustomSliderStateOptions) {
     );
     return formatHex(interpolator(state.getValuePercent(value)));
   };
+
+  const deleteColorStop = (id: string) => {
+    if (props.value.length === 2) {
+      return;
+    }
+    props.onChange(props.value.filter((cs) => cs.id !== id) as ColorStops);
+    props.setSelected?.((prev) => (prev?.id === id ? null : prev));
+  };
   return {
     ...state,
     isThumbDragging,
     setThumbDragging,
-    value,
+    value: props.value,
     onChange,
+    setSelected: props.setSelected,
     getInterpolatedColor,
+    deleteColorStop,
+    isColorStopDeletable: 2 < props.value.length,
   };
 }
