@@ -3,15 +3,15 @@ import { type AriaSliderProps, useSlider, useLocale, useMove, mergeProps } from 
 import { useGlobalListeners } from "react-aria/private/utils/useGlobalListeners";
 import { clamp, snapValueToStep } from "react-stately/private/utils/number";
 import type { Except } from "type-fest";
-import type { ColorStops, useCustomSliderState } from "./useCustomSliderState";
+import type { ColorStops, useGradientSliderState } from "./useGradientSliderState";
 
-export type CustomSliderProps = Except<AriaSliderProps, "value" | "onChange"> & {
+export type AriaGradientSliderProps = Except<AriaSliderProps, "value" | "onChange"> & {
   mode: "oklab" | "oklch";
 };
 
-export function useCustomSlider(
-  props: CustomSliderProps,
-  state: ReturnType<typeof useCustomSliderState>,
+export function useGradientSlider(
+  props: AriaGradientSliderProps,
+  state: ReturnType<typeof useGradientSliderState>,
   trackRef: RefObject<Element | null>,
 ) {
   const sliderAria = useSlider(props, state, trackRef);
@@ -146,6 +146,7 @@ export function useCustomSlider(
   return {
     ...sliderAria,
     trackProps: mergeProps(
+      // eslint-disable-next-line react-hooks/refs
       {
         ...sliderAria.trackProps,
         onMouseDown: undefined,

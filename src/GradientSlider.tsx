@@ -10,16 +10,16 @@ import {
 import { filterDOMProps } from "react-aria/filterDOMProps";
 import { type RenderProps, useRenderProps } from "react-aria-components";
 import type { Except } from "type-fest";
-import { useCustomSlider, type CustomSliderProps } from "./useCustomSlider";
+import { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";
 import {
-  useCustomSliderState,
+  useGradientSliderState,
   type ColorStops,
-  type CustomSliderStateOptions,
-} from "./useCustomSliderState";
-import { useCustomSliderThumb } from "./useCustomSliderThumb";
+  type GradientSliderStateOptions,
+} from "./useGradientSliderState";
+import { useColorStop } from "./useColorStop";
 
 type GradientSliderContextValue = {
-  state: ReturnType<typeof useCustomSliderState>;
+  state: ReturnType<typeof useGradientSliderState>;
   trackRef: React.RefObject<HTMLDivElement | null>;
   trackProps: React.HTMLAttributes<HTMLDivElement>;
   background: string;
@@ -34,18 +34,18 @@ function useGradientSliderContext() {
   return ctx;
 }
 
-type GradientSliderProps = CustomSliderProps &
-  Except<CustomSliderStateOptions, "numberFormatter"> &
+type GradientSliderProps = AriaGradientSliderProps &
+  Except<GradientSliderStateOptions, "numberFormatter"> &
   Except<React.HTMLAttributes<HTMLDivElement>, "onChange">;
 
 export function GradientSlider(props: GradientSliderProps) {
   const numberFormatter = useNumberFormatter();
-  const state = useCustomSliderState({
+  const state = useGradientSliderState({
     ...props,
     numberFormatter,
   });
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const { groupProps, trackProps, background } = useCustomSlider(
+  const { groupProps, trackProps, background } = useGradientSlider(
     { ...props, label: props.label ?? "Gradient Slider" },
     state,
     trackRef,
@@ -61,10 +61,10 @@ export function GradientSlider(props: GradientSliderProps) {
   );
 }
 
-type GradientSliderTrackProps = RenderProps<{ background: string }> &
+type SliderTrackProps = RenderProps<{ background: string }> &
   Except<React.HTMLAttributes<HTMLDivElement>, "style" | "children">;
 
-export function GradientSliderTrack(props: GradientSliderTrackProps) {
+export function SliderTrack(props: SliderTrackProps) {
   const { trackRef, trackProps, background } = useGradientSliderContext();
   const renderProps = useRenderProps({
     children: props.children,
@@ -82,7 +82,7 @@ type ColorStopProps = React.HTMLAttributes<HTMLDivElement> & { index: number };
 export function ColorStop({ index, ...props }: ColorStopProps) {
   const { state, trackRef, setSelected } = useGradientSliderContext();
   const inputRef = useRef(null);
-  const { thumbProps, inputProps, isDragging } = useCustomSliderThumb(
+  const { thumbProps, inputProps, isDragging } = useColorStop(
     { index, trackRef, inputRef, setSelected },
     state,
   );

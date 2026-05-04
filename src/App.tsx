@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { GradientSlider, GradientSliderTrack, ColorStop, DeleteButton } from "./Slider";
-import type { ColorStops } from "./useCustomSliderState";
+import { GradientSlider, SliderTrack, ColorStop, DeleteButton } from "./GradientSlider";
+import type { ColorStops } from "./useGradientSliderState";
 
 function App() {
   const [value, setValue] = useState<ColorStops>([
@@ -17,7 +17,7 @@ function App() {
         setSelected={setSelected}
         className="flex flex-col gap-2"
       >
-        <GradientSliderTrack className="flex items-center h-5 cursor-copy mt-6 mx-2.5">
+        <SliderTrack className="flex items-center h-5 cursor-copy mt-6 mx-2.5">
           {({ background }) => (
             <>
               <div style={{ background }} className="h-1.5 w-full rounded-full" />
@@ -38,7 +38,7 @@ function App() {
               ))}
             </>
           )}
-        </GradientSliderTrack>
+        </SliderTrack>
         {value.map((cs) => (
           <DeleteButton key={cs.id} id={cs.id} className="disabled:opacity-50">
             {cs.id.split("-")[0]}

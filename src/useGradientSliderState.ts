@@ -10,7 +10,7 @@ type ColorStop = {
 
 export type ColorStops = [ColorStop, ColorStop, ...ColorStop[]];
 
-export type CustomSliderStateOptions = Except<
+export type GradientSliderStateOptions = Except<
   SliderStateOptions<number[]>,
   "value" | "onChange"
 > & {
@@ -19,7 +19,7 @@ export type CustomSliderStateOptions = Except<
   setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
 };
 
-export function useCustomSliderState(props: CustomSliderStateOptions) {
+export function useGradientSliderState(props: GradientSliderStateOptions) {
   const state = useSliderState({
     ...props,
     value: props.value.map((cs) => cs.value),
