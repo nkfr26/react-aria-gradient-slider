@@ -1,19 +1,28 @@
 import { createContext, useContext, useRef } from "react";
-import { useNumberFormatter, mergeProps, useFocusRing, VisuallyHidden } from "react-aria";
+import {
+  useNumberFormatter,
+  mergeProps,
+  useFocusRing,
+  VisuallyHidden,
+  type AriaButtonOptions,
+  useButton,
+} from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
+import { type RenderProps, useRenderProps } from "react-aria-components";
+import type { Except } from "type-fest";
 import { useCustomSlider, type CustomSliderProps } from "./useCustomSlider";
 import {
   useCustomSliderState,
   type ColorStops,
   type CustomSliderStateOptions,
 } from "./useCustomSliderState";
-import type { Except } from "type-fest";
 import { useCustomSliderThumb } from "./useCustomSliderThumb";
 
 type SliderContextValue = {
   state: ReturnType<typeof useCustomSliderState>;
   trackRef: React.RefObject<HTMLDivElement | null>;
   trackProps: React.HTMLAttributes<HTMLDivElement>;
+  background: string;
   setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
 };
 
@@ -36,30 +45,36 @@ export function Slider(props: SliderProps) {
     numberFormatter,
   });
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const { groupProps, trackProps } = useCustomSlider(
+  const { groupProps, trackProps, background } = useCustomSlider(
     { ...props, label: props.label ?? "Gradient Slider" },
     state,
     trackRef,
   );
   return (
-    <SliderContext.Provider value={{ state, trackRef, trackProps, setSelected: props.setSelected }}>
-      <div
-        {...mergeProps(filterDOMProps(props), groupProps, {
-          onPointerDown: trackProps.onPointerDown,
-        })}
-        className={props.className}
-        data-orientation={state.orientation}
-        data-disabled={state.isDisabled || undefined}
-      >
+    <SliderContext.Provider
+      value={{ state, trackRef, trackProps, background, setSelected: props.setSelected }}
+    >
+      <div {...mergeProps(filterDOMProps(props), groupProps)} className={props.className}>
         {props.children}
       </div>
     </SliderContext.Provider>
   );
 }
 
-export function SliderTrack(props: React.HTMLAttributes<HTMLDivElement>) {
-  const { trackRef, trackProps } = useSliderContext();
-  return <div {...mergeProps(props, trackProps)} ref={trackRef} />;
+type SliderTrackProps = RenderProps<{ background: string }> &
+  Except<React.HTMLAttributes<HTMLDivElement>, "style" | "children">;
+
+export function SliderTrack(props: SliderTrackProps) {
+  const { trackRef, trackProps, background } = useSliderContext();
+  const renderProps = useRenderProps({
+    ...props,
+    values: { background },
+  });
+  return (
+    <div {...trackProps} className={props.className} ref={trackRef}>
+      {renderProps.children}
+    </div>
+  );
 }
 
 type SliderThumbProps = React.HTMLAttributes<HTMLDivElement> & { index: number };
@@ -71,13 +86,39 @@ export function SliderThumb({ index, ...props }: SliderThumbProps) {
     { index, trackRef, inputRef, setSelected },
     state,
   );
-  const { focusProps } = useFocusRing();
+  const { focusProps, isFocusVisible } = useFocusRing();
   return (
-    <div {...mergeProps(props, thumbProps)} data-dragging={isDragging || undefined}>
+    <div
+      {...mergeProps(props, thumbProps)}
+      data-focus-visible={isFocusVisible || undefined}
+      data-dragging={isDragging || undefined}
+    >
       <VisuallyHidden>
         <input ref={inputRef} {...mergeProps(inputProps, focusProps)} />
       </VisuallyHidden>
       {props.children}
     </div>
+  );
+}
+
+type DeleteSliderThumbButtonProps = AriaButtonOptions<"button"> &
+  React.HTMLAttributes<HTMLButtonElement> & { id: string };
+
+export function DeleteSliderThumbButton({ id, ...props }: DeleteSliderThumbButtonProps) {
+  const { state } = useSliderContext();
+  const ref = useRef<HTMLButtonElement | null>(null);
+  const { buttonProps } = useButton(
+    mergeProps(props, { isDisabled: !state.isColorStopDeletable }),
+    ref,
+  );
+  return (
+    <button
+      {...buttonProps}
+      className={props.className}
+      onPointerDown={() => state.deleteColorStop(id)}
+      style={{ cursor: buttonProps.disabled ? "not-allowed" : "pointer" }}
+    >
+      {props.children}
+    </button>
   );
 }

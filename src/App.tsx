@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Slider, SliderTrack, SliderThumb } from "./Slider";
+import { Slider, SliderTrack, SliderThumb, DeleteSliderThumbButton } from "./Slider";
 import type { ColorStops } from "./useCustomSliderState";
 
 function App() {
@@ -9,27 +9,41 @@ function App() {
   ]);
   const [selected, setSelected] = useState<ColorStops[number] | null>(null);
   return (
-    <div className="px-12 pt-6 max-w-4xl mx-auto flex flex-col gap-6">
+    <div className="px-12 pt-12 max-w-4xl mx-auto flex flex-col gap-6">
       <Slider
         value={value}
         onChange={setValue}
         mode={"oklab"}
         setSelected={setSelected}
-        className="group relative flex touch-none select-none flex-col disabled:opacity-50 orientation-horizontal:w-full orientation-horizontal:min-w-fit orientation-horizontal:gap-y-2 orientation-vertical:h-full orientation-vertical:min-h-fit orientation-vertical:w-1.5 orientation-vertical:items-center orientation-vertical:gap-y-2 py-1.75 mt-5.5 cursor-copy px-2.5"
+        className="flex flex-col gap-2"
       >
-        <SliderTrack className="bg-(--slider-track-bg,var(--color-secondary)) group/track relative rounded-full grow group-orientation-horizontal:h-1.5 group-orientation-horizontal:w-full group-orientation-vertical:w-1.5 group-orientation-vertical:flex-1 disabled:cursor-default disabled:opacity-60">
-          {value.map((cs, index) => (
-            <SliderThumb
-              key={cs.id}
-              index={index}
-              className={`top-1/2 left-1/2 size-5 rounded-full border border-fg/10 bg-white outline-hidden ring-black transition-[width,height] cursor-grab dragging:cursor-grabbing border-2 border-white ${selected?.id === cs.id ? "[box-shadow:0_0_0_2px_black,inset_0_0_0_2px_black]" : "[box-shadow:0_0_0_1px_grey,inset_0_0_0_1px_grey]"}`}
-            >
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 font-medium text-base/6 sm:text-sm/6">
-                {cs.value}
-              </div>
-            </SliderThumb>
-          ))}
+        <SliderTrack className="flex items-center h-5 cursor-copy mt-6 mx-2.5">
+          {({ background }) => (
+            <>
+              <div style={{ background }} className="h-1.5 w-full rounded-full" />
+              {value.map((cs, index) => (
+                <SliderThumb
+                  key={cs.id}
+                  index={index}
+                  className={`top-1/2 box-border size-5 cursor-grab rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring dragging:cursor-grabbing ${
+                    selected?.id === cs.id
+                      ? "shadow-[0_0_0_1px_black,inset_0_0_0_2px_white,inset_0_0_0_3px_black]"
+                      : "shadow-[0_0_0_1px_silver,inset_0_0_0_2px_white,inset_0_0_0_3px_silver]"
+                  }`}
+                >
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 font-medium text-base sm:text-sm">
+                    {cs.value}
+                  </div>
+                </SliderThumb>
+              ))}
+            </>
+          )}
         </SliderTrack>
+        {value.map((cs) => (
+          <DeleteSliderThumbButton key={cs.id} id={cs.id} className="disabled:opacity-50">
+            {cs.id.split("-")[0]}
+          </DeleteSliderThumbButton>
+        ))}
       </Slider>
       <pre className="font-medium text-base/6 sm:text-sm/6">
         selected: {selected?.id.split("-")[0]}

@@ -16,6 +16,7 @@ export type CustomSliderStateOptions = Except<
 > & {
   value: ColorStops;
   onChange: React.Dispatch<React.SetStateAction<ColorStops>>;
+  setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
 };
 
 export function useCustomSliderState(props: CustomSliderStateOptions) {
@@ -36,5 +37,21 @@ export function useCustomSliderState(props: CustomSliderStateOptions) {
     );
     return formatHex(interpolator(state.getValuePercent(value)));
   };
-  return { ...state, value: props.value, onChange: props.onChange, getInterpolatedColor };
+
+  const deleteColorStop = (id: string) => {
+    if (props.value.length === 2) {
+      return;
+    }
+    props.onChange(props.value.filter((cs) => cs.id !== id) as ColorStops);
+    props.setSelected?.((prev) => (prev?.id === id ? null : prev));
+  };
+  return {
+    ...state,
+    value: props.value,
+    onChange: props.onChange,
+    setSelected: props.setSelected,
+    getInterpolatedColor,
+    deleteColorStop,
+    isColorStopDeletable: props.value.length > 2,
+  };
 }
