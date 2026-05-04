@@ -18,7 +18,7 @@ import {
 } from "./useCustomSliderState";
 import { useCustomSliderThumb } from "./useCustomSliderThumb";
 
-type SliderContextValue = {
+type GradientSliderContextValue = {
   state: ReturnType<typeof useCustomSliderState>;
   trackRef: React.RefObject<HTMLDivElement | null>;
   trackProps: React.HTMLAttributes<HTMLDivElement>;
@@ -26,19 +26,19 @@ type SliderContextValue = {
   setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
 };
 
-const SliderContext = createContext<SliderContextValue | null>(null);
+const GradientSliderContext = createContext<GradientSliderContextValue | null>(null);
 
-function useSliderContext() {
-  const ctx = useContext(SliderContext);
+function useGradientSliderContext() {
+  const ctx = useContext(GradientSliderContext);
   if (!ctx) throw new Error();
   return ctx;
 }
 
-type SliderProps = CustomSliderProps &
+type GradientSliderProps = CustomSliderProps &
   Except<CustomSliderStateOptions, "numberFormatter"> &
   Except<React.HTMLAttributes<HTMLDivElement>, "onChange">;
 
-export function Slider(props: SliderProps) {
+export function GradientSlider(props: GradientSliderProps) {
   const numberFormatter = useNumberFormatter();
   const state = useCustomSliderState({
     ...props,
@@ -51,23 +51,23 @@ export function Slider(props: SliderProps) {
     trackRef,
   );
   return (
-    <SliderContext.Provider
+    <GradientSliderContext.Provider
       value={{ state, trackRef, trackProps, background, setSelected: props.setSelected }}
     >
       <div {...mergeProps(filterDOMProps(props), groupProps)} className={props.className}>
         {props.children}
       </div>
-    </SliderContext.Provider>
+    </GradientSliderContext.Provider>
   );
 }
 
-type SliderTrackProps = RenderProps<{ background: string }> &
+type GradientSliderTrackProps = RenderProps<{ background: string }> &
   Except<React.HTMLAttributes<HTMLDivElement>, "style" | "children">;
 
-export function SliderTrack(props: SliderTrackProps) {
-  const { trackRef, trackProps, background } = useSliderContext();
+export function GradientSliderTrack(props: GradientSliderTrackProps) {
+  const { trackRef, trackProps, background } = useGradientSliderContext();
   const renderProps = useRenderProps({
-    ...props,
+    children: props.children,
     values: { background },
   });
   return (
@@ -77,10 +77,10 @@ export function SliderTrack(props: SliderTrackProps) {
   );
 }
 
-type SliderThumbProps = React.HTMLAttributes<HTMLDivElement> & { index: number };
+type ColorStopProps = React.HTMLAttributes<HTMLDivElement> & { index: number };
 
-export function SliderThumb({ index, ...props }: SliderThumbProps) {
-  const { state, trackRef, setSelected } = useSliderContext();
+export function ColorStop({ index, ...props }: ColorStopProps) {
+  const { state, trackRef, setSelected } = useGradientSliderContext();
   const inputRef = useRef(null);
   const { thumbProps, inputProps, isDragging } = useCustomSliderThumb(
     { index, trackRef, inputRef, setSelected },
@@ -101,11 +101,11 @@ export function SliderThumb({ index, ...props }: SliderThumbProps) {
   );
 }
 
-type DeleteSliderThumbButtonProps = AriaButtonOptions<"button"> &
+type DeleteButtonProps = AriaButtonOptions<"button"> &
   React.HTMLAttributes<HTMLButtonElement> & { id: string };
 
-export function DeleteSliderThumbButton({ id, ...props }: DeleteSliderThumbButtonProps) {
-  const { state } = useSliderContext();
+export function DeleteButton({ id, ...props }: DeleteButtonProps) {
+  const { state } = useGradientSliderContext();
   const ref = useRef<HTMLButtonElement | null>(null);
   const { buttonProps } = useButton(
     mergeProps(props, { isDisabled: !state.isColorStopDeletable }),
