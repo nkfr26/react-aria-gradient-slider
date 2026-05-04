@@ -72,7 +72,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     return formatHex(interpolator(state.getValuePercent(value)));
   };
 
-  const deleteColorStop = (id: string) => {
+  const removeColorStop = (id: string) => {
     if (props.value.length === 2) {
       return;
     }
@@ -87,7 +87,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     onChange,
     setSelected: props.setSelected,
     getInterpolatedColor,
-    deleteColorStop,
-    isColorStopDeletable: 2 < props.value.length,
+    removeColorStop,
+    canRemoveColorStop: 2 < props.value.length,
   };
 }

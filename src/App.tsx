@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GradientSlider, SliderTrack, ColorStop, DeleteButton } from "./GradientSlider";
+import { GradientSlider, SliderTrack, ColorStop, RemoveButton } from "./GradientSlider";
 import type { ColorStops } from "./useGradientSliderState";
 
 function App() {
@@ -41,9 +41,9 @@ function App() {
           )}
         </SliderTrack>
         {value.map((cs) => (
-          <DeleteButton key={cs.id} id={cs.id} className="disabled:opacity-50">
+          <RemoveButton key={cs.id} id={cs.id} className="disabled:opacity-50">
             {cs.id.split("-")[0]}
-          </DeleteButton>
+          </RemoveButton>
         ))}
       </GradientSlider>
       <pre className="font-medium text-base/6 sm:text-sm/6">
