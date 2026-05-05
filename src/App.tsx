@@ -7,14 +7,14 @@ function App() {
     { id: crypto.randomUUID(), value: 0, color: "#ff0000" },
     { id: crypto.randomUUID(), value: 100, color: "#00ff00" },
   ]);
-  const [selected, setSelected] = useState<ColorStops[number] | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   return (
     <div className="px-12 pt-12 max-w-4xl mx-auto flex flex-col gap-6">
       <GradientSlider
         value={value}
         onChange={setValue}
         mode={"oklab"}
-        setSelected={setSelected}
+        setSelectedId={setSelectedId}
         className="flex flex-col gap-2"
       >
         <SliderTrack className="flex items-center h-5 cursor-copy mt-6 mx-2.5">
@@ -26,7 +26,7 @@ function App() {
                   key={cs.id}
                   index={index}
                   className={`top-1/2 box-border size-5 cursor-grab rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring dragging:cursor-grabbing ${
-                    selected?.id === cs.id
+                    selectedId === cs.id
                       ? "shadow-[0_0_0_1px_black,inset_0_0_0_2px_white,inset_0_0_0_3px_black]"
                       : "shadow-[0_0_0_1px_silver,inset_0_0_0_2px_white,inset_0_0_0_3px_silver]"
                   }`}
@@ -46,7 +46,7 @@ function App() {
         ))}
       </GradientSlider>
       <pre className="font-medium text-base/6 sm:text-sm/6">
-        selected: {selected?.id.split("-")[0]}
+        selected: {selectedId?.split("-")[0]}
       </pre>
       <pre className="font-medium text-base/6 sm:text-sm/6">
         {JSON.stringify(

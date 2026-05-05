@@ -1,9 +1,9 @@
 import { useSliderThumb, type AriaSliderThumbOptions } from "react-aria";
-import type { ColorStops, useGradientSliderState } from "./useGradientSliderState";
+import type { useGradientSliderState } from "./useGradientSliderState";
 import type { FocusableElement } from "@react-types/shared";
 
 type ColorStopOptions = AriaSliderThumbOptions & {
-  setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
+  setSelectedId?: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export function useColorStop(
@@ -23,7 +23,7 @@ export function useColorStop(
       },
       onPointerDown: (e: React.PointerEvent<FocusableElement>) => {
         sliderThumbAria.thumbProps.onPointerDown?.(e);
-        opts.setSelected?.(state.value[index]);
+        opts.setSelectedId?.(state.value[index].id);
       },
     },
   };

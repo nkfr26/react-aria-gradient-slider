@@ -110,7 +110,7 @@ export function useGradientSlider(
 
         state.onChange(newColorStops);
         state.setThumbDragging(newColorStopIndex, true);
-        state.setSelected?.(newColorStops[newColorStopIndex]);
+        state.setSelectedId?.(uuid);
 
         addGlobalListener(window, "pointerup", onUpTrack, false);
       } else {
