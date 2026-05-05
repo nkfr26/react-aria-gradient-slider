@@ -17,7 +17,7 @@ export type GradientSliderStateOptions = Except<
 > & {
   value: ColorStops;
   onChange: React.Dispatch<React.SetStateAction<ColorStops>>;
-  setSelected?: React.Dispatch<React.SetStateAction<ColorStops[number] | null>>;
+  setSelectedId?: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export function useGradientSliderState(props: GradientSliderStateOptions) {
@@ -80,7 +80,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     const newColorStops = props.value.filter((cs) => cs.id !== id) as ColorStops;
     currentColorStopsRef.current = newColorStops;
     props.onChange(newColorStops);
-    props.setSelected?.((prev) => (prev?.id === id ? null : prev));
+    props.setSelectedId?.((prev) => (prev === id ? null : prev));
   };
   return {
     ...state,
@@ -88,7 +88,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     setThumbDragging,
     value: props.value,
     onChange,
-    setSelected: props.setSelected,
+    setSelectedId: props.setSelectedId,
     getInterpolatedColor,
     removeColorStop,
     canRemoveColorStop: 2 < props.value.length,
