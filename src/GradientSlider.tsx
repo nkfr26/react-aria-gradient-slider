@@ -62,7 +62,7 @@ export function GradientSlider(props: GradientSliderProps) {
 }
 
 type SliderTrackProps = RenderProps<{ background: string }> &
-  Except<React.HTMLAttributes<HTMLDivElement>, "style" | "children">;
+  Except<React.HTMLAttributes<HTMLDivElement>, "children">;
 
 export function SliderTrack(props: SliderTrackProps) {
   const { trackRef, trackProps, background } = useGradientSliderContext();
@@ -108,7 +108,9 @@ export function RemoveButton({ id, ...props }: RemoveButtonProps) {
   const { state } = useGradientSliderContext();
   const ref = useRef<HTMLButtonElement | null>(null);
   const { buttonProps } = useButton(
-    mergeProps(props, { isDisabled: !state.canRemoveColorStop }),
+    mergeProps(props, {
+      isDisabled: !state.canRemoveColorStop,
+    } satisfies AriaButtonOptions<"button">),
     ref,
   );
   return (
