@@ -19,7 +19,11 @@ export function useColorStop(
       style: {
         ...sliderThumbAria.thumbProps.style,
         background: state.value[index].color,
-        zIndex: state.getThumbPercent(index + 1) === 1 ? state.values.length - index : undefined,
+        zIndex: state.isThumbDragging(index)
+          ? state.values.length
+          : state.getThumbPercent(index + 1) === 1
+            ? state.values.length - index
+            : undefined,
       },
       onPointerDown: (e: React.PointerEvent<FocusableElement>) => {
         sliderThumbAria.thumbProps.onPointerDown?.(e);

@@ -27,11 +27,12 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     ...restProps,
     value: props.value.map((cs) => cs.value),
     onChange: (value) => {
-      currentColorStopsRef.current = currentColorStopsRef.current.map((cs, i) => ({
+      const newColorStops = currentColorStopsRef.current.map((cs, i) => ({
         ...cs,
         value: value[i],
       })) as ColorStops;
-      props.onChange((prev) => prev.map((cs, i) => ({ ...cs, value: value[i] })) as ColorStops);
+      currentColorStopsRef.current = newColorStops;
+      props.onChange(newColorStops);
     },
   });
 
@@ -76,7 +77,9 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     if (props.value.length === 2) {
       return;
     }
-    props.onChange(props.value.filter((cs) => cs.id !== id) as ColorStops);
+    const newColorStops = props.value.filter((cs) => cs.id !== id) as ColorStops;
+    currentColorStopsRef.current = newColorStops;
+    props.onChange(newColorStops);
     props.setSelected?.((prev) => (prev?.id === id ? null : prev));
   };
   return {
