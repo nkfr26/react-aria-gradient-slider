@@ -12,18 +12,20 @@ export function useColorStop(
 ) {
   const sliderThumbAria = useSliderThumb(opts, state);
   const index = opts.index ?? 0;
+  const colorStop = state.value[index];
+  const lastIndex = state.value.length - 1;
   return {
     ...sliderThumbAria,
     thumbProps: {
       ...sliderThumbAria.thumbProps,
       style: {
         ...sliderThumbAria.thumbProps.style,
-        background: state.value[index].color,
-        zIndex: state.getThumbPercent(index + 1) === 1 ? state.values.length - index : undefined,
+        background: colorStop.color,
+        zIndex: state.getThumbPercent(index + 1) === 1 ? lastIndex - index : 0,
       },
       onPointerDown: (e: React.PointerEvent<FocusableElement>) => {
         sliderThumbAria.thumbProps.onPointerDown?.(e);
-        opts.setSelectedId?.(state.value[index].id);
+        opts.setSelectedId?.(colorStop.id);
       },
     },
   };
