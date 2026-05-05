@@ -13,7 +13,6 @@ type GradientSliderContextValue = {
   trackRef: React.RefObject<HTMLDivElement | null>;
   trackProps: React.HTMLAttributes<HTMLDivElement>;
   background: string;
-  setSelectedId?: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 const GradientSliderContext = createContext<GradientSliderContextValue | null>(null);
@@ -42,7 +41,7 @@ export function GradientSlider(props: GradientSliderProps) {
   );
   return (
     <GradientSliderContext.Provider
-      value={{ state, trackRef, trackProps, background, setSelectedId: props.setSelectedId }}
+      value={{ state, trackRef, trackProps, background }}
     >
       <div {...mergeProps(filterDOMProps(props), groupProps)} className={props.className}>
         {props.children}
@@ -70,10 +69,10 @@ export function SliderTrack(props: SliderTrackProps) {
 type ColorStopProps = React.HTMLAttributes<HTMLDivElement> & { index: number };
 
 export function ColorStop({ index, ...props }: ColorStopProps) {
-  const { state, trackRef, setSelectedId } = useGradientSliderContext();
+  const { state, trackRef } = useGradientSliderContext();
   const inputRef = useRef(null);
   const { thumbProps, inputProps, isDragging } = useColorStop(
-    { index, trackRef, inputRef, setSelectedId },
+    { index, trackRef, inputRef },
     state,
   );
   const { focusProps } = useFocusRing();
