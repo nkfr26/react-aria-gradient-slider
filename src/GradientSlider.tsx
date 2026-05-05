@@ -1,5 +1,11 @@
 import { createContext, useContext, useRef } from "react";
-import { useNumberFormatter, mergeProps, useFocusRing, VisuallyHidden } from "react-aria";
+import {
+  useNumberFormatter,
+  mergeProps,
+  useFocusRing,
+  VisuallyHidden,
+  type AriaSliderThumbOptions,
+} from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
 import { type RenderProps, useRenderProps } from "react-aria-components";
 import type { Except } from "type-fest";
@@ -40,9 +46,7 @@ export function GradientSlider(props: GradientSliderProps) {
     trackRef,
   );
   return (
-    <GradientSliderContext.Provider
-      value={{ state, trackRef, trackProps, background }}
-    >
+    <GradientSliderContext.Provider value={{ state, trackRef, trackProps, background }}>
       <div {...mergeProps(filterDOMProps(props), groupProps)} className={props.className}>
         {props.children}
       </div>
@@ -66,18 +70,20 @@ export function SliderTrack(props: SliderTrackProps) {
   );
 }
 
-type ColorStopProps = React.HTMLAttributes<HTMLDivElement> & { index: number };
+type ColorStopProps = Except<AriaSliderThumbOptions, "trackRef" | "inputRef"> &
+  React.HTMLAttributes<HTMLDivElement>;
 
-export function ColorStop({ index, ...props }: ColorStopProps) {
+export function ColorStop(props: ColorStopProps) {
   const { state, trackRef } = useGradientSliderContext();
   const inputRef = useRef(null);
-  const { thumbProps, inputProps, isDragging } = useColorStop(
-    { index, trackRef, inputRef },
-    state,
-  );
+  const { thumbProps, inputProps, isDragging } = useColorStop({ ...props, trackRef, inputRef }, state);
   const { focusProps } = useFocusRing();
   return (
-    <div {...mergeProps(props, thumbProps)} data-dragging={isDragging || undefined}>
+    <div
+      {...mergeProps(filterDOMProps(props), thumbProps)}
+      className={props.className}
+      data-dragging={isDragging || undefined}
+    >
       <VisuallyHidden>
         <input ref={inputRef} {...mergeProps(inputProps, focusProps)} />
       </VisuallyHidden>
