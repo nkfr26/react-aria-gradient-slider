@@ -25,7 +25,7 @@ function App() {
                 <ColorStop
                   key={cs.id}
                   index={index}
-                  className={`top-1/2 box-border size-5 cursor-grab rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring dragging:cursor-grabbing ${
+                  className={`top-1/2 box-border size-5 cursor-grab rounded-full dragging:cursor-grabbing ${
                     selectedId === cs.id
                       ? "shadow-[0_0_0_1px_black,inset_0_0_0_2px_white,inset_0_0_0_3px_black]"
                       : "shadow-[0_0_0_1px_silver,inset_0_0_0_2px_white,inset_0_0_0_3px_silver]"

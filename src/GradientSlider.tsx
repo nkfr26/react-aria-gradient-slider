@@ -76,13 +76,9 @@ export function ColorStop({ index, ...props }: ColorStopProps) {
     { index, trackRef, inputRef, setSelectedId },
     state,
   );
-  const { focusProps, isFocusVisible } = useFocusRing();
+  const { focusProps } = useFocusRing();
   return (
-    <div
-      {...mergeProps(props, thumbProps)}
-      data-focus-visible={isFocusVisible || undefined}
-      data-dragging={isDragging || undefined}
-    >
+    <div {...mergeProps(props, thumbProps)} data-dragging={isDragging || undefined}>
       <VisuallyHidden>
         <input ref={inputRef} {...mergeProps(inputProps, focusProps)} />
       </VisuallyHidden>
