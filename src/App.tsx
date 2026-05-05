@@ -40,7 +40,11 @@ function App() {
           )}
         </SliderTrack>
         {value.map((cs) => (
-          <RemoveButton key={cs.id} id={cs.id} className="disabled:opacity-50">
+          <RemoveButton
+            key={cs.id}
+            id={cs.id}
+            className="cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+          >
             {cs.id.split("-")[0]}
           </RemoveButton>
         ))}

@@ -18,10 +18,6 @@ export function useRemoveButton(
     buttonProps: {
       ...buttonProps,
       onClick: () => state.removeColorStop(opts.id),
-      style: {
-        ...buttonProps.style,
-        cursor: buttonProps.disabled ? "not-allowed" : "pointer",
-      },
     },
   };
 }

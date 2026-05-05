@@ -36,7 +36,6 @@ export function useGradientSlider(
       if (currentPosition.current === null && realTimeTrackDraggingIndex.current !== null) {
         currentPosition.current = state.getThumbPercent(realTimeTrackDraggingIndex.current) * size;
       }
-
       if (currentPosition.current === null) {
         return;
       }
