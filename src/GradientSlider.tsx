@@ -1,12 +1,5 @@
 import { createContext, useContext, useRef } from "react";
-import {
-  useNumberFormatter,
-  mergeProps,
-  useFocusRing,
-  VisuallyHidden,
-  type AriaButtonOptions,
-  useButton,
-} from "react-aria";
+import { useNumberFormatter, mergeProps, useFocusRing, VisuallyHidden } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
 import { type RenderProps, useRenderProps } from "react-aria-components";
 import type { Except } from "type-fest";
@@ -17,6 +10,7 @@ import {
   type GradientSliderStateOptions,
 } from "./useGradientSliderState";
 import { useColorStop } from "./useColorStop";
+import { useRemoveButton, type RemoveButtonOptions } from "./useRemoveButton";
 
 type GradientSliderContextValue = {
   state: ReturnType<typeof useGradientSliderState>;
@@ -101,25 +95,14 @@ export function ColorStop({ index, ...props }: ColorStopProps) {
   );
 }
 
-type RemoveButtonProps = AriaButtonOptions<"button"> &
-  React.HTMLAttributes<HTMLButtonElement> & { id: string };
+type RemoveButtonProps = RemoveButtonOptions & React.HTMLAttributes<HTMLButtonElement>;
 
-export function RemoveButton({ id, ...props }: RemoveButtonProps) {
+export function RemoveButton(props: RemoveButtonProps) {
   const { state } = useGradientSliderContext();
   const ref = useRef<HTMLButtonElement | null>(null);
-  const { buttonProps } = useButton(
-    mergeProps(props, {
-      isDisabled: !state.canRemoveColorStop,
-    } satisfies AriaButtonOptions<"button">),
-    ref,
-  );
+  const { buttonProps } = useRemoveButton(props, state, ref);
   return (
-    <button
-      {...buttonProps}
-      className={props.className}
-      onPointerDown={() => state.removeColorStop(id)}
-      style={{ cursor: buttonProps.disabled ? "not-allowed" : "pointer" }}
-    >
+    <button {...buttonProps} className={props.className}>
       {props.children}
     </button>
   );
