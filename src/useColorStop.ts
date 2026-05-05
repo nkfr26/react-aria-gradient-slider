@@ -20,7 +20,7 @@ export function useColorStop(
       ...sliderThumbAria.thumbProps,
       style: {
         ...sliderThumbAria.thumbProps.style,
-        background: state.value[index].color,
+        background: colorStop.color,
         zIndex: state.isThumbDragging(index)
           ? lastIndex
           : state.getThumbPercent(index + 1) === 1
