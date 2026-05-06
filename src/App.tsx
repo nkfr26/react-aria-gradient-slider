@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { GradientSlider, SliderTrack, ColorStop, RemoveButton, ColorInput } from "./GradientSlider";
+import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
 import type { ColorStops } from "./useGradientSliderState";
-import { buttonStyles } from "./components/ui/button";
+import { Button } from "./components/ui/button";
 
 function App() {
   const [value, setValue] = useState<ColorStops>([
@@ -47,12 +47,19 @@ function App() {
                   <input type="color" value={value} onChange={(e) => onChange(e.target.value)} />
                 )}
               </ColorInput>
-              <RemoveButton
-                id={selectedColorStop.id}
-                className={`${buttonStyles({ intent: "plain", size: "sq-xs" })} cursor-pointer disabled:cursor-not-allowed`}
-              >
-                x
-              </RemoveButton>
+              <Remove id={selectedColorStop.id}>
+                {({ isDisabled, onPress }) => (
+                  <Button
+                    isDisabled={isDisabled}
+                    onPress={onPress}
+                    intent="plain"
+                    size="sq-xs"
+                    className="cursor-pointer disabled:cursor-not-allowed"
+                  >
+                    x
+                  </Button>
+                )}
+              </Remove>
             </>
           ) : (
             "Select or add a color stop to edit"

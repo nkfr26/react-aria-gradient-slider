@@ -7,7 +7,7 @@ import {
   type AriaSliderThumbOptions,
 } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
-import { Button, type RenderProps, useRenderProps } from "react-aria-components";
+import { type RenderProps, useRenderProps } from "react-aria-components";
 import type { Except } from "type-fest";
 import { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";
 import { useGradientSliderState, type GradientSliderStateOptions } from "./useGradientSliderState";
@@ -111,15 +111,16 @@ export function ColorInput({ id, children }: ColorInputProps) {
   return renderProps.children;
 }
 
-type RemoveButtonProps = { id: string } & Except<React.ComponentProps<typeof Button>, "onPress">;
+type RemoveProps = { id: string } & RenderProps<{ isDisabled: boolean; onPress: () => void }>;
 
-export function RemoveButton({ id, ...props }: RemoveButtonProps) {
+export function Remove({ id, children }: RemoveProps) {
   const { state } = useGradientSliderContext();
-  return (
-    <Button
-      {...props}
-      isDisabled={!state.canRemoveColorStop || props.isDisabled}
-      onPress={() => state.removeColorStop(id)}
-    />
-  );
+  const renderProps = useRenderProps({
+    children,
+    values: {
+      isDisabled: !state.canRemoveColorStop,
+      onPress: () => state.removeColorStop(id),
+    },
+  });
+  return renderProps.children;
 }
