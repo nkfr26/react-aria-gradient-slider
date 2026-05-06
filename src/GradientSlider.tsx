@@ -7,12 +7,11 @@ import {
   type AriaSliderThumbOptions,
 } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
-import { type RenderProps, useRenderProps } from "react-aria-components";
+import { Button, type RenderProps, useRenderProps } from "react-aria-components";
 import type { Except } from "type-fest";
 import { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";
 import { useGradientSliderState, type GradientSliderStateOptions } from "./useGradientSliderState";
 import { useColorStop } from "./useColorStop";
-import { useRemoveButton, type RemoveButtonOptions } from "./useRemoveButton";
 
 type GradientSliderContextValue = {
   state: ReturnType<typeof useGradientSliderState>;
@@ -76,7 +75,10 @@ type ColorStopProps = Except<AriaSliderThumbOptions, "trackRef" | "inputRef"> &
 export function ColorStop(props: ColorStopProps) {
   const { state, trackRef } = useGradientSliderContext();
   const inputRef = useRef(null);
-  const { thumbProps, inputProps, isDragging } = useColorStop({ ...props, trackRef, inputRef }, state);
+  const { thumbProps, inputProps, isDragging } = useColorStop(
+    { ...props, trackRef, inputRef },
+    state,
+  );
   const { focusProps } = useFocusRing();
   return (
     <div
@@ -92,15 +94,32 @@ export function ColorStop(props: ColorStopProps) {
   );
 }
 
-type RemoveButtonProps = RemoveButtonOptions & React.HTMLAttributes<HTMLButtonElement>;
+type ColorInputProps = { id: string } & RenderProps<{
+  value?: string;
+  onChange: (color: string) => void;
+}>;
 
-export function RemoveButton(props: RemoveButtonProps) {
+export function ColorInput({ id, children }: ColorInputProps) {
   const { state } = useGradientSliderContext();
-  const ref = useRef<HTMLButtonElement | null>(null);
-  const { buttonProps } = useRemoveButton(props, state, ref);
+  const renderProps = useRenderProps({
+    children,
+    values: {
+      value: state.value.find((cs) => cs.id === id)?.color,
+      onChange: (color: string) => state.updateColorStop(id, { color }),
+    },
+  });
+  return renderProps.children;
+}
+
+type RemoveButtonProps = { id: string } & Except<React.ComponentProps<typeof Button>, "onPress">;
+
+export function RemoveButton({ id, ...props }: RemoveButtonProps) {
+  const { state } = useGradientSliderContext();
   return (
-    <button {...buttonProps} className={props.className}>
-      {props.children}
-    </button>
+    <Button
+      {...props}
+      isDisabled={!state.canRemoveColorStop || props.isDisabled}
+      onPress={() => state.removeColorStop(id)}
+    />
   );
 }

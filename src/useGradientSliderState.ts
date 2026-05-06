@@ -45,6 +45,12 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     props.onChange(props.value.filter((cs) => cs.id !== id) as ColorStops);
     props.setSelectedId?.((prev) => (prev === id ? null : prev));
   };
+
+  const updateColorStop = (id: string, updates: Partial<Except<ColorStop, "id">>) => {
+    props.onChange(
+      (prev) => prev.map((cs) => (cs.id === id ? { ...cs, ...updates } : cs)) as ColorStops,
+    );
+  };
   return {
     ...state,
     value: props.value,
@@ -53,5 +59,6 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     getInterpolatedColor,
     removeColorStop,
     canRemoveColorStop: 2 < props.value.length,
+    updateColorStop,
   };
 }
