@@ -79,16 +79,9 @@ export const buttonStyles = tv({
       ],
     },
 
-    isCircle: {
-      true: "rounded-full",
-      false: "rounded-lg",
-    },
+    isCircle: { true: "rounded-full", false: "rounded-lg" },
   },
-  defaultVariants: {
-    intent: "primary",
-    size: "md",
-    isCircle: false,
-  },
+  defaultVariants: { intent: "primary", size: "md", isCircle: false },
 });
 
 export interface ButtonProps extends ButtonPrimitiveProps, VariantProps<typeof buttonStyles> {
@@ -100,14 +93,7 @@ export function Button({ className, intent, size, isCircle, ref, ...props }: But
     <ButtonPrimitive
       ref={ref}
       {...props}
-      className={cx(
-        buttonStyles({
-          intent,
-          size,
-          isCircle,
-        }),
-        className,
-      )}
+      className={cx(buttonStyles({ intent, size, isCircle }), className)}
     />
   );
 }

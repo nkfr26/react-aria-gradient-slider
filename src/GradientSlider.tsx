@@ -35,10 +35,7 @@ type GradientSliderProps = AriaGradientSliderProps &
 export function GradientSlider(props: GradientSliderProps) {
   const label = props.label ?? "Gradient Slider";
   const numberFormatter = useNumberFormatter();
-  const state = useGradientSliderState({
-    ...props,
-    numberFormatter,
-  });
+  const state = useGradientSliderState({ ...props, numberFormatter });
   const trackRef = useRef<HTMLDivElement | null>(null);
   const { groupProps, trackProps, labelProps, background } = useGradientSlider(
     { ...props, label },
@@ -62,10 +59,7 @@ type SliderTrackProps = RenderProps<{ background: string }> &
 
 export function SliderTrack(props: SliderTrackProps) {
   const { trackRef, trackProps, background } = useGradientSliderContext();
-  const renderProps = useRenderProps({
-    children: props.children,
-    values: { background },
-  });
+  const renderProps = useRenderProps({ children: props.children, values: { background } });
   return (
     <div {...trackProps} className={props.className} ref={trackRef}>
       {renderProps.children}
@@ -121,10 +115,7 @@ export function Remove({ id, children }: RemoveProps) {
   const { state } = useGradientSliderContext();
   const renderProps = useRenderProps({
     children,
-    values: {
-      isDisabled: !state.canRemoveColorStop,
-      onPress: () => state.removeColorStop(id),
-    },
+    values: { isDisabled: !state.canRemoveColorStop, onPress: () => state.removeColorStop(id) },
   });
   return renderProps.children;
 }

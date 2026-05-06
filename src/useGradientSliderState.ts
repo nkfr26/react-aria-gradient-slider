@@ -2,11 +2,7 @@ import { formatHex, interpolate } from "culori";
 import { useSliderState, type SliderStateOptions } from "react-stately";
 import type { Except } from "type-fest";
 
-type ColorStop = {
-  id: string;
-  value: number;
-  color: string;
-};
+type ColorStop = { id: string; value: number; color: string };
 
 export type ColorStops = [ColorStop, ColorStop, ...ColorStop[]];
 
