@@ -33,20 +33,24 @@ type GradientSliderProps = AriaGradientSliderProps &
   Except<React.HTMLAttributes<HTMLDivElement>, "onChange">;
 
 export function GradientSlider(props: GradientSliderProps) {
+  const label = props.label ?? "Gradient Slider";
   const numberFormatter = useNumberFormatter();
   const state = useGradientSliderState({
     ...props,
     numberFormatter,
   });
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const { groupProps, trackProps, background } = useGradientSlider(
-    { ...props, label: props.label ?? "Gradient Slider" },
+  const { groupProps, trackProps, labelProps, background } = useGradientSlider(
+    { ...props, label },
     state,
     trackRef,
   );
   return (
     <GradientSliderContext.Provider value={{ state, trackRef, trackProps, background }}>
       <div {...mergeProps(filterDOMProps(props), groupProps)} className={props.className}>
+        <VisuallyHidden>
+          <label {...labelProps}>{label}</label>
+        </VisuallyHidden>
         {props.children}
       </div>
     </GradientSliderContext.Provider>

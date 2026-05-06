@@ -11,7 +11,7 @@ function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectedColorStop = value.find((cs) => cs.id === selectedId);
   return (
-    <div className="px-12 pt-12 max-w-xl mx-auto flex flex-col gap-6 font-medium text-base sm:text-sm">
+    <main className="px-12 pt-12 max-w-xl mx-auto flex flex-col gap-6 font-medium text-base sm:text-sm">
       <GradientSlider
         value={value}
         onChange={setValue}
@@ -74,7 +74,7 @@ function App() {
           2,
         )}
       </pre>
-    </div>
+    </main>
   );
 }
 
