@@ -19,7 +19,7 @@ function App() {
         setSelectedId={setSelectedId}
         className="flex flex-col gap-2"
       >
-        <SliderTrack className="flex items-center h-5 cursor-copy mt-5 mx-2.5">
+        <SliderTrack className="flex items-center h-5 cursor-copy mt-6 mx-2.5">
           {({ background }) => (
             <>
               <div style={{ background }} className="h-1.5 w-full rounded-full" />
