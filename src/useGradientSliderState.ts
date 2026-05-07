@@ -1,5 +1,6 @@
 import { formatHex, interpolate } from "culori";
 import { useSliderState, type SliderStateOptions } from "react-stately";
+import { snapValueToStep } from "react-stately/private/utils/number";
 import type { Except } from "type-fest";
 
 type ColorStop = { id: string; value: number; color: string };
@@ -12,6 +13,7 @@ export type GradientSliderStateOptions = Except<
 > & {
   value: ColorStops;
   onChange: React.Dispatch<React.SetStateAction<ColorStops>>;
+  mode: "oklab" | "oklch";
   setSelectedId?: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
@@ -24,14 +26,39 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     },
   });
 
-  const getInterpolatedColor = (value: number, mode: "oklab" | "oklch", filterIndex?: number) => {
+  const privateGetInterpolatedColor = (value: number, filterIndex?: number) => {
     const interpolator = interpolate(
       props.value
         .filter((_, index) => index !== filterIndex)
         .map((cs) => [cs.color, state.getValuePercent(cs.value)]),
-      mode,
+      props.mode,
     );
     return formatHex(interpolator(state.getValuePercent(value)));
+  };
+
+  const getAddedColorStops = (colorStop: ColorStop): ColorStops => {
+    if (props.value.some((cs) => cs.value === colorStop.value)) {
+      return props.value;
+    }
+    return [...props.value, colorStop].toSorted((a, b) => a.value - b.value) as ColorStops;
+  };
+
+  const setThumbPercentAndColor = (index: number, percent: number) => {
+    props.onChange((prev) => {
+      return prev.map((cs, i) => {
+        if (i === index) {
+          const value = snapValueToStep(
+            state.getPercentValue(percent),
+            state.getThumbMinValue(i),
+            state.getThumbMaxValue(i),
+            state.step,
+          );
+          const color = privateGetInterpolatedColor(value, i);
+          return { ...cs, value, color };
+        }
+        return cs;
+      }) as ColorStops;
+    });
   };
 
   const removeColorStop = (id: string) => {
@@ -51,8 +78,11 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     ...state,
     value: props.value,
     onChange: props.onChange,
+    mode: props.mode,
     setSelectedId: props.setSelectedId,
-    getInterpolatedColor,
+    getInterpolatedColor: (value: number) => privateGetInterpolatedColor(value),
+    getAddedColorStops,
+    setThumbPercentAndColor,
     removeColorStop,
     canRemoveColorStop: 2 < props.value.length,
     updateColorStop,

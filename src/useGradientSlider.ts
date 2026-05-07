@@ -1,13 +1,11 @@
 import { useRef, type RefObject } from "react";
 import { type AriaSliderProps, useSlider, useLocale, useMove, mergeProps } from "react-aria";
 import { useGlobalListeners } from "react-aria/private/utils/useGlobalListeners";
-import { clamp, snapValueToStep } from "react-stately/private/utils/number";
+import { clamp } from "react-stately/private/utils/number";
 import type { Except } from "type-fest";
-import type { ColorStops, useGradientSliderState } from "./useGradientSliderState";
+import type { useGradientSliderState } from "./useGradientSliderState";
 
-export type AriaGradientSliderProps = Except<AriaSliderProps, "value" | "onChange"> & {
-  mode: "oklab" | "oklch";
-};
+export type AriaGradientSliderProps = Except<AriaSliderProps, "value" | "onChange">;
 
 export function useGradientSlider(
   props: AriaGradientSliderProps,
@@ -49,21 +47,7 @@ export function useGradientSlider(
 
       if (realTimeTrackDraggingIndex.current !== null && trackRef.current) {
         const percent = clamp(currentPosition.current / size, 0, 1);
-        state.onChange((prev) => {
-          return prev.map((cs, index) => {
-            if (index === realTimeTrackDraggingIndex.current) {
-              const value = snapValueToStep(
-                state.getPercentValue(percent),
-                state.getThumbMinValue(index),
-                state.getThumbMaxValue(index),
-                state.step,
-              );
-              const color = state.getInterpolatedColor(value, props.mode, index);
-              return { ...cs, value, color };
-            }
-            return cs;
-          }) as ColorStops;
-        });
+        state.setThumbPercentAndColor(realTimeTrackDraggingIndex.current, percent);
       }
     },
     onMoveEnd() {
@@ -94,21 +78,19 @@ export function useGradientSlider(
 
       const uuid = crypto.randomUUID();
       const value = state.getPercentValue(percent);
-      const color = state.getInterpolatedColor(value, props.mode);
-      const newColorStops = [...state.value, { id: uuid, value, color }].toSorted(
-        (a, b) => a.value - b.value,
-      ) as ColorStops;
+      const color = state.getInterpolatedColor(value);
+      const newColorStops = state.getAddedColorStops({ id: uuid, value, color });
       const newColorStopIndex = newColorStops.findIndex((cs) => cs.id === uuid);
 
-      e.preventDefault();
-
       if (newColorStopIndex >= 0) {
+        e.preventDefault();
+
         realTimeTrackDraggingIndex.current = newColorStopIndex;
         state.setFocusedThumb(newColorStopIndex);
         currentPointer.current = id;
 
-        state.onChange(newColorStops);
         state.setThumbDragging(newColorStopIndex, true);
+        state.onChange(newColorStops);
         state.setSelectedId?.(uuid);
 
         addGlobalListener(window, "pointerup", onUpTrack, false);
@@ -140,7 +122,7 @@ export function useGradientSlider(
     const linearColorStop = state.value
       .map(({ color, value }) => `${color} ${state.getValuePercent(value) * 100}%`)
       .join(", ");
-    return `linear-gradient(in ${props.mode} to ${to}, ${linearColorStop})`;
+    return `linear-gradient(in ${state.mode} to ${to}, ${linearColorStop})`;
   };
   return {
     ...sliderAria,
