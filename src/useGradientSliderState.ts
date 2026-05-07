@@ -14,8 +14,13 @@ export type GradientSliderStateOptions = Except<
   value: ColorStops;
   onChange: React.Dispatch<React.SetStateAction<ColorStops>>;
   mode: "oklab" | "oklch";
-  setSelectedId?: React.Dispatch<React.SetStateAction<string | null>>;
-};
+} & (
+    | {
+        selectedId: string | null;
+        setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
+      }
+    | { selectedId?: never; setSelectedId?: never }
+  );
 
 export function useGradientSliderState(props: GradientSliderStateOptions) {
   const state = useSliderState({
@@ -79,6 +84,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     value: props.value,
     onChange: props.onChange,
     mode: props.mode,
+    selectedId: props.selectedId,
     setSelectedId: props.setSelectedId,
     getInterpolatedColor: (value: number) => privateGetInterpolatedColor(value),
     getAddedColorStops,
