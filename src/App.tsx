@@ -16,7 +16,6 @@ function App() {
         value={value}
         onChange={setValue}
         mode={"oklab"}
-        selectedId={selectedId}
         setSelectedId={setSelectedId}
         className="flex flex-col gap-2"
       >

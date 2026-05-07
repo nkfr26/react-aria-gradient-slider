@@ -17,7 +17,7 @@ export function useColorStop(
         ...sliderThumbAria.thumbProps.style,
         background: colorStop?.color,
         zIndex:
-          state.getThumbPercent(index + 1) === 1 || state.selectedId === colorStop.id
+          state.getThumbPercent(index + 1) === 1 || state.focusedThumb === index
             ? state.value.length - 1 - index
             : 0,
       },
