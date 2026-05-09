@@ -23,7 +23,7 @@ function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectedColorStop = value.find((cs) => cs.id === selectedId);
   return (
-    <main className="p-12 max-w-xl mx-auto flex flex-col gap-6 font-mono">
+    <main className="p-8 max-w-xl mx-auto flex flex-col gap-6 font-mono">
       <GradientSlider
         value={value}
         onChange={setValue}
@@ -32,7 +32,7 @@ function App() {
         className="flex flex-col gap-2"
       >
         <Label>gradient slider</Label>
-        <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-3">
+        <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-2.5">
           {({ background }) => (
             <>
               <div style={{ background }} className="h-2 w-full rounded-full" />
@@ -89,7 +89,7 @@ function App() {
               </Remove>
             </>
           ) : (
-            <span className="h-8 sm:h-7">select or add a color stop to edit</span>
+            <span className="text-sm h-8 sm:h-7">select or add a color stop to edit</span>
           )}
         </div>
       </GradientSlider>
@@ -101,7 +101,7 @@ function App() {
         setSelectedId={setSelectedId}
       >
         <Label>different style</Label>
-        <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-3">
+        <SliderTrack className="flex items-center h-6 cursor-copy m-2.5">
           {({ background }) => (
             <>
               <div style={{ background }} className="size-full rounded-sm" />
