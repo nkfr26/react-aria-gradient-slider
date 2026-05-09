@@ -47,7 +47,7 @@ export function useGradientSlider(
 
       if (realTimeTrackDraggingIndex.current !== null && trackRef.current) {
         const percent = clamp(currentPosition.current / size, 0, 1);
-        state.setThumbPercentAndColor(realTimeTrackDraggingIndex.current, percent);
+        state.setThumbPercentColor(realTimeTrackDraggingIndex.current, percent);
       }
     },
     onMoveEnd() {

@@ -2,6 +2,16 @@ import { useState } from "react";
 import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
 import type { ColorStops } from "./useGradientSliderState";
 import { Button } from "./components/ui/button";
+import { converter, formatHex } from "culori";
+
+function darken(hex: string, mode: "oklab" | "oklch", amount: number = 0.1) {
+  const color = converter(mode)(hex);
+  if (!color) {
+    return hex;
+  }
+  color.l = Math.max(0, color.l - amount);
+  return formatHex(color);
+}
 
 function App() {
   const [value, setValue] = useState<ColorStops>([
@@ -19,7 +29,7 @@ function App() {
         setSelectedId={setSelectedId}
         className="flex flex-col gap-2"
       >
-        <SliderTrack className="flex items-center h-5 cursor-copy mt-6 mx-2.5">
+        <SliderTrack className="flex items-center h-5.5 cursor-copy mt-5.5 mx-2.5">
           {({ background }) => (
             <>
               <div style={{ background }} className="h-1.5 w-full rounded-full" />
@@ -27,11 +37,16 @@ function App() {
                 <ColorStop
                   key={cs.id}
                   index={index}
-                  className={`top-1/2 size-5 cursor-grab rounded-full dragging:cursor-grabbing ${
-                    selectedId === cs.id
-                      ? "shadow-[0_0_0_1px_black,inset_0_0_0_2px_white,inset_0_0_0_3px_black]"
-                      : "shadow-[0_0_0_1px_silver,inset_0_0_0_2px_white,inset_0_0_0_3px_silver]"
-                  }`}
+                  className="top-1/2 size-4.5 cursor-grab rounded-full border-2 border-white dragging:cursor-grabbing"
+                  style={({ background }) => ({
+                    boxShadow: [
+                      `0 0 2px rgba(0,0,0,0.5)`,
+                      `inset 0 0 0 1px ${darken(background, "oklab")}`,
+                      selectedId === cs.id && "0 0 0 2px black",
+                    ]
+                      .filter(Boolean)
+                      .join(","),
+                  })}
                 >
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2">{cs.value}</div>
                 </ColorStop>

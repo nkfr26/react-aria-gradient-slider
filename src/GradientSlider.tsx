@@ -67,8 +67,9 @@ export function SliderTrack(props: SliderTrackProps) {
   );
 }
 
-type ColorStopProps = Except<AriaSliderThumbOptions, "trackRef" | "inputRef"> &
-  React.HTMLAttributes<HTMLDivElement>;
+type ColorStopProps = RenderProps<{ background: string }> &
+  Except<AriaSliderThumbOptions, "trackRef" | "inputRef"> &
+  Except<React.HTMLAttributes<HTMLDivElement>, "style">;
 
 export function ColorStop(props: ColorStopProps) {
   const { state, trackRef } = useGradientSliderContext();
@@ -78,10 +79,15 @@ export function ColorStop(props: ColorStopProps) {
     state,
   );
   const { focusProps } = useFocusRing();
+  const renderProps = useRenderProps({
+    style: props.style,
+    values: { background: thumbProps.style.background },
+  });
   return (
     <div
       {...mergeProps(filterDOMProps(props), thumbProps)}
       className={props.className}
+      style={{ ...thumbProps.style, ...renderProps.style }}
       data-dragging={isDragging || undefined}
     >
       <VisuallyHidden>

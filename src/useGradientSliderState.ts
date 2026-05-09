@@ -43,7 +43,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     return [...props.value, colorStop].toSorted((a, b) => a.value - b.value) as ColorStops;
   };
 
-  const setThumbPercentAndColor = (index: number, percent: number) => {
+  const setThumbPercentColor = (index: number, percent: number) => {
     props.onChange((prev) => {
       return prev.map((cs, i) => {
         if (i === index) {
@@ -82,7 +82,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     setSelectedId: props.setSelectedId,
     getInterpolatedColor: (value: number) => privateGetInterpolatedColor(value),
     getAddedColorStops,
-    setThumbPercentAndColor,
+    setThumbPercentColor,
     removeColorStop,
     canRemoveColorStop: 2 < props.value.length,
     updateColorStop,
