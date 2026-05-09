@@ -31,7 +31,7 @@ function App() {
         setSelectedId={setSelectedId}
         className="flex flex-col gap-2"
       >
-        <Label>Gradient Slider</Label>
+        <Label>gradient slider</Label>
         <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-3">
           {({ background }) => (
             <>
@@ -89,10 +89,41 @@ function App() {
               </Remove>
             </>
           ) : (
-            "Select or add a color stop to edit"
+            <span className="h-8 sm:h-7">select or add a color stop to edit</span>
           )}
         </div>
       </GradientSlider>
+
+      <GradientSlider
+        value={value}
+        onChange={setValue}
+        mode={"oklab"}
+        setSelectedId={setSelectedId}
+      >
+        <Label>different style</Label>
+        <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-3">
+          {({ background }) => (
+            <>
+              <div style={{ background }} className="size-full rounded-sm" />
+              {value.map((cs, index) => (
+                <ColorStop
+                  key={cs.id}
+                  index={index}
+                  className="top-1/2 size-6 cursor-grab dragging:cursor-grabbing flex items-center justify-center"
+                >
+                  {({ background }) => (
+                    <div
+                      className="size-4 rounded-full border-2 border-white"
+                      style={{ background }}
+                    />
+                  )}
+                </ColorStop>
+              ))}
+            </>
+          )}
+        </SliderTrack>
+      </GradientSlider>
+
       <pre>selected index: {value.findIndex((cs) => cs.id === selectedId)}</pre>
       <pre>
         {JSON.stringify(
