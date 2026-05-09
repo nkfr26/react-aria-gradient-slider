@@ -30,7 +30,7 @@ function App() {
         setSelectedId={setSelectedId}
         className="flex flex-col gap-2"
       >
-        <SliderTrack className="flex items-center h-5.5 cursor-copy mt-5.5 mx-2.5">
+        <SliderTrack className="flex items-center h-5.5 cursor-copy mt-5 mx-3">
           {({ background }) => (
             <>
               <div style={{ background }} className="h-1.5 w-full rounded-full" />
@@ -46,14 +46,14 @@ function App() {
                         className={cn(
                           "relative size-4.5 rounded-full border-2 border-white",
                           selectedId === cs.id &&
-                            "outline-2 outline-black dark:-outline-offset-2 dark:outline-4 dark:outline-white",
+                            "outline-1 outline-black dark:-outline-offset-1 dark:outline-2 dark:outline-white",
                         )}
                         style={{
                           background,
                           boxShadow: `0 0 2px rgba(0,0,0,0.5), inset 0 0 0 1px ${darken(background, "oklab")}`,
                         }}
                       >
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 pb-0.5">
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2">
                           {cs.value}
                         </div>
                       </div>
