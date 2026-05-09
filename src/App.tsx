@@ -30,10 +30,10 @@ function App() {
         setSelectedId={setSelectedId}
         className="flex flex-col gap-2"
       >
-        <SliderTrack className="flex items-center h-5.5 cursor-copy mt-5 mx-3">
+        <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-3">
           {({ background }) => (
             <>
-              <div style={{ background }} className="h-1.5 w-full rounded-full" />
+              <div style={{ background }} className="h-2 w-full rounded-full" />
               {value.map((cs, index) => (
                 <ColorStop
                   key={cs.id}
@@ -44,7 +44,7 @@ function App() {
                     <>
                       <div
                         className={cn(
-                          "relative size-4.5 rounded-full border-2 border-white",
+                          "relative size-5 rounded-full border-2 border-white",
                           selectedId === cs.id &&
                             "outline-1 outline-black dark:-outline-offset-1 dark:outline-2 dark:outline-white",
                         )}
