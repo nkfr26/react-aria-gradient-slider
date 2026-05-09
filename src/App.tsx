@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
+import { Label } from "react-aria-components";
 import type { ColorStops } from "./useGradientSliderState";
 import { Button } from "./components/ui/button";
 import { converter, formatHex } from "culori";
@@ -22,7 +23,7 @@ function App() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectedColorStop = value.find((cs) => cs.id === selectedId);
   return (
-    <main className="px-12 pt-12 max-w-xl mx-auto flex flex-col gap-6 font-medium text-base sm:text-sm">
+    <main className="p-12 max-w-xl mx-auto flex flex-col gap-6 font-mono">
       <GradientSlider
         value={value}
         onChange={setValue}
@@ -30,6 +31,7 @@ function App() {
         setSelectedId={setSelectedId}
         className="flex flex-col gap-2"
       >
+        <Label>Gradient Slider</Label>
         <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-3">
           {({ background }) => (
             <>
@@ -53,7 +55,7 @@ function App() {
                           boxShadow: `0 0 2px rgba(0,0,0,0.5), inset 0 0 0 1px ${darken(background, "oklab")}`,
                         }}
                       >
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2">
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 text-sm pb-1">
                           {cs.value}
                         </div>
                       </div>
@@ -64,7 +66,7 @@ function App() {
             </>
           )}
         </SliderTrack>
-        <div className="font-mono flex items-center justify-center">
+        <div className="flex items-center justify-center">
           {selectedColorStop ? (
             <>
               <ColorInput id={selectedColorStop.id}>

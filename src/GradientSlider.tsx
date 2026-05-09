@@ -7,11 +7,12 @@ import {
   type AriaSliderThumbOptions,
 } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
-import { type RenderProps, useRenderProps } from "react-aria-components";
+import { LabelContext, type RenderProps, Provider, useRenderProps } from "react-aria-components";
 import type { Except } from "type-fest";
 import { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";
 import { useGradientSliderState, type GradientSliderStateOptions } from "./useGradientSliderState";
 import { useColorStop } from "./useColorStop";
+import { useSlot } from "./lib/utils";
 
 type GradientSliderContextValue = {
   state: ReturnType<typeof useGradientSliderState>;
@@ -23,34 +24,38 @@ type GradientSliderContextValue = {
 const GradientSliderContext = createContext<GradientSliderContextValue | null>(null);
 
 function useGradientSliderContext() {
-  const ctx = useContext(GradientSliderContext);
-  if (!ctx) throw new Error();
-  return ctx;
+  const context = useContext(GradientSliderContext);
+  if (!context) {
+    throw new Error();
+  }
+  return context;
 }
 
-type GradientSliderProps = AriaGradientSliderProps &
+type GradientSliderProps = Except<AriaGradientSliderProps, "label"> &
   Except<GradientSliderStateOptions, "numberFormatter"> &
   Except<React.HTMLAttributes<HTMLDivElement>, "onChange">;
 
 export function GradientSlider(props: GradientSliderProps) {
-  const label = props.label ?? "Gradient Slider";
+  const trackRef = useRef<HTMLDivElement | null>(null);
   const numberFormatter = useNumberFormatter();
   const state = useGradientSliderState({ ...props, numberFormatter });
-  const trackRef = useRef<HTMLDivElement | null>(null);
+  const [labelRef, label] = useSlot(!props["aria-label"] && !props["aria-labelledby"]);
   const { groupProps, trackProps, labelProps, background } = useGradientSlider(
     { ...props, label },
     state,
     trackRef,
   );
   return (
-    <GradientSliderContext.Provider value={{ state, trackRef, trackProps, background }}>
+    <Provider
+      values={[
+        [GradientSliderContext, { state, trackRef, trackProps, background }],
+        [LabelContext, { ...labelProps, ref: labelRef }],
+      ]}
+    >
       <div {...mergeProps(filterDOMProps(props), groupProps)} className={props.className}>
-        <VisuallyHidden>
-          <label {...labelProps}>{label}</label>
-        </VisuallyHidden>
         {props.children}
       </div>
-    </GradientSliderContext.Provider>
+    </Provider>
   );
 }
 
