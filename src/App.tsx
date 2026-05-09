@@ -3,6 +3,7 @@ import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./Gr
 import type { ColorStops } from "./useGradientSliderState";
 import { Button } from "./components/ui/button";
 import { converter, formatHex } from "culori";
+import { cn } from "./lib/utils";
 
 function darken(hex: string, mode: "oklab" | "oklch", amount: number = 0.1) {
   const color = converter(mode)(hex);
@@ -37,18 +38,27 @@ function App() {
                 <ColorStop
                   key={cs.id}
                   index={index}
-                  className="top-1/2 size-4.5 cursor-grab rounded-full border-2 border-white dragging:cursor-grabbing"
-                  style={({ background }) => ({
-                    boxShadow: [
-                      `0 0 2px rgba(0,0,0,0.5)`,
-                      `inset 0 0 0 1px ${darken(background, "oklab")}`,
-                      selectedId === cs.id && "0 0 0 2px black",
-                    ]
-                      .filter(Boolean)
-                      .join(","),
-                  })}
+                  className="top-1/2 size-6 cursor-grab dragging:cursor-grabbing flex items-center justify-center"
                 >
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2">{cs.value}</div>
+                  {({ background }) => (
+                    <>
+                      <div
+                        className={cn(
+                          "relative size-4.5 rounded-full border-2 border-white",
+                          selectedId === cs.id &&
+                            "outline-2 outline-black dark:-outline-offset-2 dark:outline-4 dark:outline-white",
+                        )}
+                        style={{
+                          background,
+                          boxShadow: `0 0 2px rgba(0,0,0,0.5), inset 0 0 0 1px ${darken(background, "oklab")}`,
+                        }}
+                      >
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 pb-0.5">
+                          {cs.value}
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </ColorStop>
               ))}
             </>
