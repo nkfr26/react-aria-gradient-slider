@@ -8,11 +8,10 @@ import {
 } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
 import { LabelContext, type RenderProps, Provider, useRenderProps } from "react-aria-components";
-import type { Except } from "type-fest";
 import { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";
 import { useGradientSliderState, type GradientSliderStateOptions } from "./useGradientSliderState";
 import { useColorStop } from "./useColorStop";
-import { useSlot } from "./lib/utils";
+import { type Except, useSlot } from "./utils";
 
 type GradientSliderContextValue = {
   state: ReturnType<typeof useGradientSliderState>;

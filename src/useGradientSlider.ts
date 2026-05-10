@@ -2,8 +2,8 @@ import { useRef, type RefObject } from "react";
 import { type AriaSliderProps, useSlider, useLocale, useMove, mergeProps } from "react-aria";
 import { useGlobalListeners } from "react-aria/private/utils/useGlobalListeners";
 import { clamp } from "react-stately/private/utils/number";
-import type { Except } from "type-fest";
 import type { useGradientSliderState } from "./useGradientSliderState";
+import type { Except } from "./utils";
 
 export type AriaGradientSliderProps = Except<AriaSliderProps, "value" | "onChange">;
 
