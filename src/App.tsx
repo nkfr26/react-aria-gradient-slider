@@ -43,23 +43,21 @@ function App() {
                   className="top-1/2 size-6 cursor-grab dragging:cursor-grabbing flex items-center justify-center"
                 >
                   {({ background }) => (
-                    <>
-                      <div
-                        className={cn(
-                          "relative size-5 rounded-full border-2 border-white",
-                          selectedId === cs.id &&
-                            "outline-1 outline-black dark:-outline-offset-2 dark:outline-4 dark:outline-white",
-                        )}
-                        style={{
-                          background,
-                          boxShadow: `0 0 2px rgba(0,0,0,0.5), inset 0 0 0 1px ${darken(background, "oklab")}`,
-                        }}
-                      >
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 text-sm pb-1">
-                          {cs.value}
-                        </div>
+                    <div
+                      className={cn(
+                        "relative size-5 rounded-full border-2 border-white",
+                        selectedId === cs.id &&
+                          "outline-1 outline-black dark:-outline-offset-2 dark:outline-4 dark:outline-white",
+                      )}
+                      style={{
+                        background,
+                        boxShadow: `0 0 2px rgba(0,0,0,0.5), inset 0 0 0 1px ${darken(background, "oklab")}`,
+                      }}
+                    >
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 text-sm pb-1">
+                        {cs.value}
                       </div>
-                    </>
+                    </div>
                   )}
                 </ColorStop>
               ))}
