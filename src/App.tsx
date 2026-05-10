@@ -48,7 +48,7 @@ function App() {
                         className={cn(
                           "relative size-5 rounded-full border-2 border-white",
                           selectedId === cs.id &&
-                            "outline-1 outline-black dark:-outline-offset-1 dark:outline-2 dark:outline-white",
+                            "outline-1 outline-black dark:-outline-offset-2 dark:outline-4 dark:outline-white",
                         )}
                         style={{
                           background,
