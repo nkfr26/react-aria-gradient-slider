@@ -47,7 +47,7 @@ function App() {
                       className={cn(
                         "relative size-5 rounded-full border-2 border-white",
                         selectedId === cs.id &&
-                          "outline-1 outline-black dark:-outline-offset-2 dark:outline-4 dark:outline-white",
+                          "outline-1 outline-foreground dark:-outline-offset-2 dark:outline-4",
                       )}
                       style={{
                         background,
@@ -64,7 +64,7 @@ function App() {
             </>
           )}
         </SliderTrack>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center h-8 sm:h-7">
           {selectedColorStop ? (
             <>
               <ColorInput id={selectedColorStop.id}>
@@ -87,7 +87,7 @@ function App() {
               </Remove>
             </>
           ) : (
-            <span className="text-sm h-8 sm:h-7">select or add a color stop to edit</span>
+            <span className="text-sm">select or add a color stop to edit</span>
           )}
         </div>
       </GradientSlider>
@@ -97,9 +97,10 @@ function App() {
         onChange={setValue}
         mode={"oklab"}
         setSelectedId={setSelectedId}
+        className="flex flex-col gap-2"
       >
         <Label>different style</Label>
-        <SliderTrack className="flex items-center h-6 cursor-copy m-2.5">
+        <SliderTrack className="flex items-center h-6 cursor-copy mx-2.5">
           {({ background }) => (
             <>
               <div style={{ background }} className="size-full rounded-sm" />
@@ -111,7 +112,7 @@ function App() {
                 >
                   {({ background }) => (
                     <div
-                      className="size-4 rounded-full border-2 border-white"
+                      className="size-4 rounded-full border-2 border-white shadow-[0_0_1px_rgba(0,0,0,0.4)]"
                       style={{ background }}
                     />
                   )}
@@ -120,6 +121,47 @@ function App() {
             </>
           )}
         </SliderTrack>
+      </GradientSlider>
+
+      <GradientSlider
+        value={value}
+        onChange={setValue}
+        mode={"oklab"}
+        setSelectedId={setSelectedId}
+        className="flex flex-col gap-2"
+        aria-label="different style 2"
+      >
+        <div className="mb-2 mx-2.5">
+          <SliderTrack className="flex items-center h-4 cursor-copy">
+            {({ background }) => (
+              <div
+                style={{ background }}
+                className="size-full border border-white shadow-[0_0_1px_rgba(0,0,0,0.4)]"
+              />
+            )}
+          </SliderTrack>
+          <div className="w-full relative mt-2">
+            {value.map((cs, index) => (
+              <ColorStop
+                key={cs.id}
+                index={index}
+                className="size-6 cursor-grab dragging:cursor-grabbing flex items-center justify-center"
+              >
+                {({ background }) => (
+                  <svg className="size-4 drop-shadow-[0_0_1px_rgba(0,0,0,0.4)]" viewBox="0 0 16 16">
+                    <polygon
+                      points="8,0.5 0.5,13.5 15.5,13.5"
+                      fill={background}
+                      stroke="white"
+                      strokeWidth="1"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </ColorStop>
+            ))}
+          </div>
+        </div>
       </GradientSlider>
 
       <pre>selected index: {value.findIndex((cs) => cs.id === selectedId)}</pre>
