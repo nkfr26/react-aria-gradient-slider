@@ -2,7 +2,6 @@ import { useState } from "react";
 import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
 import { Label } from "react-aria-components";
 import type { ColorStops } from "./useGradientSliderState";
-import { Button } from "./components/ui/button";
 import { converter, formatHex } from "culori";
 import { cn } from "./lib/utils";
 
@@ -74,15 +73,13 @@ function App() {
               </ColorInput>
               <Remove id={selectedColorStop.id}>
                 {({ isDisabled, onPress }) => (
-                  <Button
-                    isDisabled={isDisabled}
-                    onPress={onPress}
-                    intent="plain"
-                    size="sq-xs"
+                  <button
+                    disabled={isDisabled}
+                    onClick={onPress}
                     className="cursor-pointer disabled:cursor-not-allowed"
                   >
                     x
-                  </Button>
+                  </button>
                 )}
               </Remove>
             </>
