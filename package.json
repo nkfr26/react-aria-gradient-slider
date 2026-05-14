@@ -13,6 +13,7 @@
     "typecheck": "tsgo --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.2.4",
     "@typescript/native-preview": "^7.0.0-dev.20260424.1",
     "culori": "^4.0.2",

@@ -101,7 +101,7 @@ export function ColorStop(props: ColorStopProps) {
 
 type ColorInputProps = { id: string } & RenderProps<{
   value?: string;
-  onChange: (color: string) => void;
+  onChange: (value: string) => void;
 }>;
 
 export function ColorInput({ id, children }: ColorInputProps) {
@@ -110,7 +110,7 @@ export function ColorInput({ id, children }: ColorInputProps) {
     children,
     values: {
       value: state.value.find((cs) => cs.id === id)?.color,
-      onChange: (color: string) => state.updateColorStop(id, { color }),
+      onChange: (color) => state.updateColorStop(id, { color }),
     },
   });
   return renderProps.children;

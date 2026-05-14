@@ -1,18 +1,11 @@
 import { useState } from "react";
-import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
 import { Label } from "react-aria-components";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
 import type { ColorStops } from "./useGradientSliderState";
-import { converter, formatHex } from "culori";
+import { Button } from "./components/ui/Button";
+import { ColorPicker } from "./components/ui/ColorPicker";
 import { cn } from "./lib/utils";
-
-function darken(hex: string, mode: "oklab" | "oklch", amount: number = 0.1) {
-  const color = converter(mode)(hex);
-  if (!color) {
-    return hex;
-  }
-  color.l = Math.max(0, color.l - amount);
-  return formatHex(color);
-}
 
 function App() {
   const [value, setValue] = useState<ColorStops>([
@@ -43,15 +36,12 @@ function App() {
                 >
                   {({ background }) => (
                     <div
+                      style={{ background }}
                       className={cn(
-                        "relative size-5 rounded-full border-2 border-white",
+                        "relative size-5 rounded-full border-2 border-white box-border shadow-[0_0_2px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(0,0,0,0.1)]",
                         selectedId === cs.id &&
                           "outline-1 outline-foreground dark:-outline-offset-2 dark:outline-4",
                       )}
-                      style={{
-                        background,
-                        boxShadow: `0 0 2px rgba(0,0,0,0.5), inset 0 0 0 1px ${darken(background, "oklab")}`,
-                      }}
                     >
                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 text-sm pb-1">
                         {cs.value}
@@ -63,23 +53,28 @@ function App() {
             </>
           )}
         </SliderTrack>
-        <div className="flex items-center justify-center h-8 sm:h-7">
+        <div className="flex items-center justify-center h-8">
           {selectedColorStop ? (
             <>
               <ColorInput id={selectedColorStop.id}>
                 {({ value, onChange }) => (
-                  <input type="color" value={value} onChange={(e) => onChange(e.target.value)} />
+                  <ColorPicker
+                    value={value}
+                    onChange={(c) => onChange(c.toString("hex"))}
+                    className="cursor-pointer"
+                  />
                 )}
               </ColorInput>
               <Remove id={selectedColorStop.id}>
                 {({ isDisabled, onPress }) => (
-                  <button
-                    disabled={isDisabled}
-                    onClick={onPress}
-                    className="cursor-pointer disabled:cursor-not-allowed"
+                  <Button
+                    isDisabled={isDisabled}
+                    onPress={onPress}
+                    variant="secondary"
+                    className="rounded-md cursor-pointer disabled:cursor-not-allowed"
                   >
-                    x
-                  </button>
+                    <TrashIcon className="size-4" />
+                  </Button>
                 )}
               </Remove>
             </>
