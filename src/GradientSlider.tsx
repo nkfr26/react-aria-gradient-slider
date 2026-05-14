@@ -7,7 +7,13 @@ import {
   type AriaSliderThumbOptions,
 } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
-import { LabelContext, type RenderProps, Provider, useRenderProps } from "react-aria-components";
+import {
+  LabelContext,
+  type RenderProps,
+  Provider,
+  useRenderProps,
+  type Color,
+} from "react-aria-components";
 import { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";
 import { useGradientSliderState, type GradientSliderStateOptions } from "./useGradientSliderState";
 import { useColorStop } from "./useColorStop";
@@ -83,7 +89,10 @@ export function ColorStop(props: ColorStopProps) {
     state,
   );
   const { focusProps } = useFocusRing();
-  const renderProps = useRenderProps({ children: props.children, values: { background } });
+  const renderProps = useRenderProps({
+    children: props.children,
+    values: { background: background.toString("hexa") },
+  });
   return (
     <div
       {...mergeProps(filterDOMProps(props), thumbProps)}
@@ -100,8 +109,8 @@ export function ColorStop(props: ColorStopProps) {
 }
 
 type ColorInputProps = { id: string } & RenderProps<{
-  value?: string;
-  onChange: (value: string) => void;
+  value?: Color;
+  onChange: (value: Color) => void;
 }>;
 
 export function ColorInput({ id, children }: ColorInputProps) {

@@ -1,9 +1,9 @@
-import { formatHex, interpolate } from "culori";
-import { useSliderState, type SliderStateOptions } from "react-stately";
+import { formatHex8, interpolate } from "culori";
+import { parseColor, useSliderState, type Color, type SliderStateOptions } from "react-stately";
 import { snapValueToStep } from "react-stately/private/utils/number";
 import type { Except } from "./utils";
 
-type ColorStop = { id: string; value: number; color: string };
+type ColorStop = { id: string; value: number; color: Color };
 
 export type ColorStops = [ColorStop, ColorStop, ...ColorStop[]];
 
@@ -30,10 +30,10 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     const interpolator = interpolate(
       props.value
         .filter((_, index) => index !== filterIndex)
-        .map((cs) => [cs.color, state.getValuePercent(cs.value)]),
+        .map((cs) => [cs.color.toString("hexa"), state.getValuePercent(cs.value)]),
       props.mode,
     );
-    return formatHex(interpolator(state.getValuePercent(value)));
+    return parseColor(formatHex8(interpolator(state.getValuePercent(value))));
   };
 
   const getAddedColorStops = (colorStop: ColorStop): ColorStops => {

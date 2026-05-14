@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Label } from "react-aria-components";
+import { Label, parseColor } from "react-aria-components";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
 import type { ColorStops } from "./useGradientSliderState";
@@ -9,8 +9,8 @@ import { cn } from "./lib/utils";
 
 function App() {
   const [value, setValue] = useState<ColorStops>([
-    { id: crypto.randomUUID(), value: 0, color: "#ff0000" },
-    { id: crypto.randomUUID(), value: 100, color: "#00ff00" },
+    { id: crypto.randomUUID(), value: 0, color: parseColor("#ff0000") },
+    { id: crypto.randomUUID(), value: 100, color: parseColor("#00ff00") },
   ]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectedColorStop = value.find((cs) => cs.id === selectedId);
@@ -58,11 +58,7 @@ function App() {
             <>
               <ColorInput id={selectedColorStop.id}>
                 {({ value, onChange }) => (
-                  <ColorPicker
-                    value={value}
-                    onChange={(c) => onChange(c.toString("hex"))}
-                    className="cursor-pointer"
-                  />
+                  <ColorPicker value={value} onChange={onChange} className="cursor-pointer" />
                 )}
               </ColorInput>
               <Remove id={selectedColorStop.id}>
@@ -159,7 +155,7 @@ function App() {
       <pre>selected index: {value.findIndex((cs) => cs.id === selectedId)}</pre>
       <pre>
         {JSON.stringify(
-          value.map((cs) => ({ value: cs.value, color: cs.color })),
+          value.map((cs) => ({ value: cs.value, color: cs.color.toString("hexa") })),
           null,
           2,
         )}
