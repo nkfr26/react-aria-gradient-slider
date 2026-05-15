@@ -10,7 +10,8 @@ export function ThemeButton({ ...props }: ComponentProps<typeof Button>) {
   };
   return (
     <Button variant="quiet" onPress={toggleTheme} {...props}>
-      {resolvedTheme === "dark" ? <MoonIcon /> : <SunIcon />}
+      <SunIcon className="dark:hidden" />
+      <MoonIcon className="hidden dark:inline-block" />
     </Button>
   );
 }
