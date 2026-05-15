@@ -6,6 +6,9 @@ import type { ColorStops } from "./useGradientSliderState";
 import { Button } from "./components/ui/Button";
 import { ColorPicker } from "./components/ui/ColorPicker";
 import { cn } from "./lib/utils";
+import { ColorArea } from "./components/ui/ColorArea";
+import { ColorSlider } from "./components/ui/ColorSlider";
+import { ColorSwatchPicker, ColorSwatchPickerItem } from "./components/ui/ColorSwatchPicker";
 
 function App() {
   const [value, setValue] = useState<ColorStops>([
@@ -38,8 +41,9 @@ function App() {
                     <div
                       style={{ background }}
                       className={cn(
-                        "relative size-5 rounded-full border-2 border-white box-border shadow-[0_0_2px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(0,0,0,0.1)]",
-                        selectedId === cs.id && "outline-1 outline-black",
+                        "relative size-5 rounded-full border-3 border-white shadow-[0_0_2px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(0,0,0,0.1)]",
+                        selectedId === cs.id &&
+                          "outline-1 outline-black -outline-offset-1 dark:-outline-offset-3",
                       )}
                     >
                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 text-sm pb-1">
@@ -57,7 +61,18 @@ function App() {
             <>
               <ColorInput id={selectedColorStop.id}>
                 {({ value, onChange }) => (
-                  <ColorPicker value={value} onChange={onChange} className="cursor-pointer" />
+                  <ColorPicker value={value} onChange={onChange} className="cursor-pointer">
+                    <ColorArea colorSpace="hsb" xChannel="saturation" yChannel="brightness" />
+                    <ColorSlider colorSpace="hsb" channel="hue" />
+                    <ColorSwatchPicker className="justify-between">
+                      <ColorSwatchPickerItem color="#A00" />
+                      <ColorSwatchPickerItem color="#f80" />
+                      <ColorSwatchPickerItem color="#080" />
+                      <ColorSwatchPickerItem color="#08f" />
+                      <ColorSwatchPickerItem color="#088" />
+                      <ColorSwatchPickerItem color="#008" />
+                    </ColorSwatchPicker>
+                  </ColorPicker>
                 )}
               </ColorInput>
               <Remove id={selectedColorStop.id}>
