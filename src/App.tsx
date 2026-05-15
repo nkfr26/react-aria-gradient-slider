@@ -39,8 +39,7 @@ function App() {
                       style={{ background }}
                       className={cn(
                         "relative size-5 rounded-full border-2 border-white box-border shadow-[0_0_2px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(0,0,0,0.1)]",
-                        selectedId === cs.id &&
-                          "outline-1 outline-foreground dark:-outline-offset-2 dark:outline-4",
+                        selectedId === cs.id && "outline-1 outline-black",
                       )}
                     >
                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 text-sm pb-1">

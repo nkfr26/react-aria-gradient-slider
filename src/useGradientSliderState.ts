@@ -65,7 +65,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     if (props.value.length === 2) {
       return;
     }
-    props.onChange(props.value.filter((cs) => cs.id !== id) as ColorStops);
+    props.onChange((prev) => prev.filter((cs) => cs.id !== id) as ColorStops);
     props.setSelectedId?.((prev) => (prev === id ? null : prev));
   };
 
