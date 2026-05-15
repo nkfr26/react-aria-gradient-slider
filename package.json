@@ -1,5 +1,5 @@
 {
-  "name": "rac-gradient-slider",
+  "name": "react-aria-gradient-slider",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -14,9 +14,11 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@primer/octicons-react": "^19.25.0",
     "@tailwindcss/vite": "^4.2.4",
     "@typescript/native-preview": "^7.0.0-dev.20260424.1",
     "culori": "^4.0.2",
+    "next-themes": "^0.4.6",
     "react": "^19.2.5",
     "react-aria": "^3.48.0",
     "react-aria-components": "^1.17.0",
