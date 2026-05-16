@@ -3,7 +3,7 @@ import { Label, parseColor } from "react-aria-components";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { MarkGithubIcon } from "@primer/octicons-react";
 import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
-import type { ColorStops } from "./useGradientSliderState";
+import type { ColorStops, Mode } from "./useGradientSliderState";
 import { button, Button } from "./components/ui/Button";
 import { ColorPicker } from "./components/ui/ColorPicker";
 import { ColorArea } from "./components/ui/ColorArea";
@@ -13,7 +13,7 @@ import { cn } from "./lib/utils";
 import { ThemeButton } from "./ThemeButton";
 
 function App() {
-  const [mode, setMode] = useState<"oklab" | "oklch">("oklab");
+  const [mode, setMode] = useState<Mode>("oklab");
   const [value, setValue] = useState<ColorStops>([
     { id: crypto.randomUUID(), value: 0, color: parseColor("#ff0000") },
     { id: crypto.randomUUID(), value: 100, color: parseColor("#00ff00") },
@@ -50,7 +50,7 @@ function App() {
                 className="rounded-md cursor-pointer font-mono text-base h-8"
                 onPress={() => setMode((m) => (m === "oklab" ? "oklch" : "oklab"))}
               >
-                {mode}
+                <span className="underline">{mode}</span>
               </Button>
               <ThemeButton className="rounded-md cursor-pointer" />
             </div>

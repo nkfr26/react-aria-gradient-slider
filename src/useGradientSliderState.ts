@@ -7,13 +7,15 @@ type ColorStop = { id: string; value: number; color: Color };
 
 export type ColorStops = [ColorStop, ColorStop, ...ColorStop[]];
 
+export type Mode = "oklab" | "oklch";
+
 export type GradientSliderStateOptions = Except<
   SliderStateOptions<number[]>,
   "value" | "onChange"
 > & {
   value: ColorStops;
   onChange: React.Dispatch<React.SetStateAction<ColorStops>>;
-  mode: "oklab" | "oklch";
+  mode: Mode;
   setSelectedId?: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
