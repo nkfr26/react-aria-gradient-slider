@@ -38,11 +38,13 @@ function useGradientSliderContext() {
 
 type GradientSliderProps = Except<AriaGradientSliderProps, "label"> &
   Except<GradientSliderStateOptions, "numberFormatter"> &
-  Except<React.HTMLAttributes<HTMLDivElement>, "onChange">;
+  Except<React.HTMLAttributes<HTMLDivElement>, "onChange"> & {
+    formatOptions?: Intl.NumberFormatOptions;
+  };
 
 export function GradientSlider(props: GradientSliderProps) {
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const numberFormatter = useNumberFormatter();
+  const numberFormatter = useNumberFormatter(props.formatOptions);
   const state = useGradientSliderState({ ...props, numberFormatter });
   const [labelRef, label] = useSlot(!props["aria-label"] && !props["aria-labelledby"]);
   const { groupProps, trackProps, labelProps, background } = useGradientSlider(
