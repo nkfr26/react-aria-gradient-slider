@@ -34,7 +34,7 @@ export function App() {
             href="https://github.com/nkfr26/react-aria-gradient-slider"
             target="_blank"
             rel="noopener noreferrer"
-            className={button({ variant: "quiet", className: "rounded-md cursor-pointer" })}
+            className={button({ variant: "quiet", className: "rounded-md" })}
           >
             <MarkGithubIcon />
           </a>
@@ -50,15 +50,11 @@ export function App() {
         >
           <div className="flex items-center justify-between">
             <Label>gradient slider</Label>
-            <div className="flex items-center">
-              <Button
-                variant="quiet"
-                className="rounded-md cursor-pointer font-mono text-base h-8"
-                onPress={() => setMode((m) => (m === "oklab" ? "oklch" : "oklab"))}
-              >
+            <div className="flex items-center gap-2">
+              <button onClick={() => setMode((prev) => (prev === "oklab" ? "oklch" : "oklab"))}>
                 <span className="underline">{mode}</span>
-              </Button>
-              <ThemeButton className="rounded-md cursor-pointer" />
+              </button>
+              <ThemeButton className="rounded-md" />
             </div>
           </div>
           <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-2.5">
@@ -95,7 +91,7 @@ export function App() {
               <>
                 <ColorInput id={selectedColorStop.id}>
                   {({ value, onChange }) => (
-                    <ColorPicker value={value} onChange={onChange} className="cursor-pointer">
+                    <ColorPicker value={value} onChange={onChange}>
                       <ColorArea colorSpace="hsb" xChannel="saturation" yChannel="brightness" />
                       <ColorSlider colorSpace="hsb" channel="hue" />
                       <ColorSwatchPicker className="justify-between">
@@ -115,7 +111,7 @@ export function App() {
                       isDisabled={isDisabled}
                       onPress={onPress}
                       variant="secondary"
-                      className="rounded-md cursor-pointer disabled:cursor-not-allowed"
+                      className="rounded-md disabled:cursor-not-allowed"
                     >
                       <TrashIcon className="size-4" />
                     </Button>
