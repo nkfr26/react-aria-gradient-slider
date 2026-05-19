@@ -1,22 +1,22 @@
 import { createContext, useContext, useRef } from "react";
 import {
-  useNumberFormatter,
   mergeProps,
   useFocusRing,
-  VisuallyHidden,
-  type AriaSliderThumbOptions,
+  useNumberFormatter,
+  type AriaSliderThumbProps,
 } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
 import {
+  Provider,
   LabelContext,
   type RenderProps,
-  Provider,
   useRenderProps,
+  VisuallyHidden,
   type Color,
 } from "react-aria-components";
-import { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";
-import { useGradientSliderState, type GradientSliderStateOptions } from "./useGradientSliderState";
 import { useColorStop } from "./useColorStop";
+import { type AriaGradientSliderProps, useGradientSlider } from "./useGradientSlider";
+import { useGradientSliderState, type GradientSliderStateOptions } from "./useGradientSliderState";
 import { type Except, useSlot } from "./utils";
 
 type GradientSliderContextValue = {
@@ -80,7 +80,7 @@ export function SliderTrack(props: SliderTrackProps) {
 }
 
 type ColorStopProps = RenderProps<{ background: string }> &
-  Except<AriaSliderThumbOptions, "trackRef" | "inputRef"> &
+  AriaSliderThumbProps &
   Except<React.HTMLAttributes<HTMLDivElement>, "children">;
 
 export function ColorStop(props: ColorStopProps) {

@@ -1,18 +1,24 @@
-import { useState } from "react";
-import { Label, parseColor } from "react-aria-components";
-import { TrashIcon } from "@heroicons/react/24/outline";
 import { MarkGithubIcon } from "@primer/octicons-react";
-import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
-import type { ColorStops, Mode } from "./useGradientSliderState";
-import { button, Button } from "./components/ui/Button";
-import { ColorPicker } from "./components/ui/ColorPicker";
-import { ColorArea } from "./components/ui/ColorArea";
-import { ColorSlider } from "./components/ui/ColorSlider";
-import { ColorSwatchPicker, ColorSwatchPickerItem } from "./components/ui/ColorSwatchPicker";
-import { cn } from "./lib/utils";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { parseColor, Label } from "react-aria-components";
 import { ThemeButton } from "./ThemeButton";
+import { cn } from "./lib/utils";
+import { Button, button } from "./comonents/ui/Button";
+import { ColorPicker } from "./comonents/ui/ColorPicker";
+import { ColorArea } from "./comonents/ui/ColorArea";
+import { ColorSlider } from "./comonents/ui/ColorSlider";
+import { ColorSwatchPicker, ColorSwatchPickerItem } from "./comonents/ui/ColorSwatchPicker";
+import {
+  ColorInput,
+  ColorStop,
+  GradientSlider,
+  Remove,
+  SliderTrack,
+} from "../../src/GradientSlider";
+import { ColorStops, Mode } from "../../src/useGradientSliderState";
 
-function App() {
+export function App() {
   const [mode, setMode] = useState<Mode>("oklab");
   const [value, setValue] = useState<ColorStops>([
     { id: crypto.randomUUID(), value: 0, color: parseColor("#ff0000") },
@@ -28,7 +34,7 @@ function App() {
             href="https://github.com/nkfr26/react-aria-gradient-slider"
             target="_blank"
             rel="noopener noreferrer"
-            className={button({ variant: "quiet", className: "rounded-md cursor-pointer" })}
+            className={button({ variant: "quiet", className: "rounded-md" })}
           >
             <MarkGithubIcon />
           </a>
@@ -44,15 +50,11 @@ function App() {
         >
           <div className="flex items-center justify-between">
             <Label>gradient slider</Label>
-            <div className="flex items-center">
-              <Button
-                variant="quiet"
-                className="rounded-md cursor-pointer font-mono text-base h-8"
-                onPress={() => setMode((m) => (m === "oklab" ? "oklch" : "oklab"))}
-              >
+            <div className="flex items-center gap-2">
+              <button onClick={() => setMode((prev) => (prev === "oklab" ? "oklch" : "oklab"))}>
                 <span className="underline">{mode}</span>
-              </Button>
-              <ThemeButton className="rounded-md cursor-pointer" />
+              </button>
+              <ThemeButton className="rounded-md" />
             </div>
           </div>
           <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-2.5">
@@ -89,7 +91,7 @@ function App() {
               <>
                 <ColorInput id={selectedColorStop.id}>
                   {({ value, onChange }) => (
-                    <ColorPicker value={value} onChange={onChange} className="cursor-pointer">
+                    <ColorPicker value={value} onChange={onChange}>
                       <ColorArea colorSpace="hsb" xChannel="saturation" yChannel="brightness" />
                       <ColorSlider colorSpace="hsb" channel="hue" />
                       <ColorSwatchPicker className="justify-between">
@@ -109,7 +111,7 @@ function App() {
                       isDisabled={isDisabled}
                       onPress={onPress}
                       variant="secondary"
-                      className="rounded-md cursor-pointer disabled:cursor-not-allowed"
+                      className="rounded-md disabled:cursor-not-allowed"
                     >
                       <TrashIcon className="size-4" />
                     </Button>
@@ -209,5 +211,3 @@ function App() {
     </>
   );
 }
-
-export default App;
