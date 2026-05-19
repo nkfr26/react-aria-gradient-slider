@@ -1,5 +1,13 @@
 // export { MyButton } from './MyButton'
-export { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
+export {
+  GradientSliderContext,
+  useGradientSliderContext,
+  GradientSlider,
+  SliderTrack,
+  ColorStop,
+  Remove,
+  ColorInput,
+} from "./GradientSlider";
 export { useColorStop } from "./useColorStop";
 export { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";
 export {

@@ -26,9 +26,9 @@ type GradientSliderContextValue = {
   background: string;
 };
 
-const GradientSliderContext = createContext<GradientSliderContextValue | null>(null);
+export const GradientSliderContext = createContext<GradientSliderContextValue | null>(null);
 
-function useGradientSliderContext() {
+export function useGradientSliderContext() {
   const context = useContext(GradientSliderContext);
   if (!context) {
     throw new Error();
