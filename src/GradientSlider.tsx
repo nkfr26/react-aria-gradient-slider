@@ -1,22 +1,22 @@
 import { createContext, useContext, useRef } from "react";
 import {
-  useNumberFormatter,
   mergeProps,
   useFocusRing,
-  VisuallyHidden,
+  useNumberFormatter,
   type AriaSliderThumbOptions,
 } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
 import {
+  Provider,
   LabelContext,
   type RenderProps,
-  Provider,
   useRenderProps,
+  VisuallyHidden,
   type Color,
 } from "react-aria-components";
-import { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";
-import { useGradientSliderState, type GradientSliderStateOptions } from "./useGradientSliderState";
 import { useColorStop } from "./useColorStop";
+import { type AriaGradientSliderProps, useGradientSlider } from "./useGradientSlider";
+import { useGradientSliderState, type GradientSliderStateOptions } from "./useGradientSliderState";
 import { type Except, useSlot } from "./utils";
 
 type GradientSliderContextValue = {

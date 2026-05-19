@@ -1,7 +1,7 @@
-import { formatHex8, interpolate } from "culori";
-import { parseColor, useSliderState, type Color, type SliderStateOptions } from "react-stately";
-import { snapValueToStep } from "react-stately/private/utils/number";
+import { interpolate, formatHex8 } from "culori";
+import { type Color, parseColor, type SliderStateOptions, useSliderState } from "react-stately";
 import type { Except } from "./utils";
+import { snapValueToStep } from "react-stately/private/utils/number";
 
 type ColorStop = { id: string; value: number; color: Color };
 

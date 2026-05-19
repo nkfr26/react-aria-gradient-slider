@@ -1,18 +1,24 @@
-import { useState } from "react";
-import { Label, parseColor } from "react-aria-components";
-import { TrashIcon } from "@heroicons/react/24/outline";
 import { MarkGithubIcon } from "@primer/octicons-react";
-import { GradientSlider, SliderTrack, ColorStop, Remove, ColorInput } from "./GradientSlider";
-import type { ColorStops, Mode } from "./useGradientSliderState";
-import { button, Button } from "./components/ui/Button";
-import { ColorPicker } from "./components/ui/ColorPicker";
-import { ColorArea } from "./components/ui/ColorArea";
-import { ColorSlider } from "./components/ui/ColorSlider";
-import { ColorSwatchPicker, ColorSwatchPickerItem } from "./components/ui/ColorSwatchPicker";
-import { cn } from "./lib/utils";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { parseColor, Label } from "react-aria-components";
 import { ThemeButton } from "./ThemeButton";
+import { cn } from "./lib/utils";
+import { Button, button } from "./comonents/ui/Button";
+import { ColorPicker } from "./comonents/ui/ColorPicker";
+import { ColorArea } from "./comonents/ui/ColorArea";
+import { ColorSlider } from "./comonents/ui/ColorSlider";
+import { ColorSwatchPicker, ColorSwatchPickerItem } from "./comonents/ui/ColorSwatchPicker";
+import {
+  ColorInput,
+  ColorStop,
+  GradientSlider,
+  Remove,
+  SliderTrack,
+} from "../../src/GradientSlider";
+import { ColorStops, Mode } from "../../src/useGradientSliderState";
 
-function App() {
+export function App() {
   const [mode, setMode] = useState<Mode>("oklab");
   const [value, setValue] = useState<ColorStops>([
     { id: crypto.randomUUID(), value: 0, color: parseColor("#ff0000") },
@@ -209,5 +215,3 @@ function App() {
     </>
   );
 }
-
-export default App;

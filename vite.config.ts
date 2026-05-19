@@ -1,12 +1,20 @@
-import { defineConfig } from "vite";
-import path from "path";
-import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+/// <reference types="vitest/config" />
 import babel from "@rolldown/plugin-babel";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import { playwright } from "@vitest/browser-playwright";
+import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
-import basicSsl from "@vitejs/plugin-basic-ssl";
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), babel({ presets: [reactCompilerPreset()] }), basicSsl()],
-  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  root: "./playground",
+  plugins: [react(), babel({ presets: [reactCompilerPreset()] }), tailwindcss()],
+  test: {
+    root: ".",
+    browser: {
+      enabled: true,
+      provider: playwright(),
+      instances: [{ browser: "chromium" }],
+      headless: true,
+    },
+  },
 });

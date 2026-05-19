@@ -1,5 +1,5 @@
 import { useRef, type RefObject } from "react";
-import { type AriaSliderProps, useSlider, useLocale, useMove, mergeProps } from "react-aria";
+import { mergeProps, useLocale, useMove, useSlider, type AriaSliderProps } from "react-aria";
 import { useGlobalListeners } from "react-aria/private/utils/useGlobalListeners";
 import { clamp } from "react-stately/private/utils/number";
 import type { useGradientSliderState } from "./useGradientSliderState";
