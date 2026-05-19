@@ -1,1 +1,5 @@
-{ "buildCommand": "vite build", "outputDirectory": "playground/dist" }
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "vite build",
+  "outputDirectory": "playground/dist"
+}
