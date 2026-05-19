@@ -29,7 +29,8 @@ export function App() {
   return (
     <>
       <header className="flex h-12 items-center border-b border-foreground bg-background">
-        <div className="container mx-auto flex justify-end pr-2">
+        <div className="container mx-auto flex items-center justify-between pl-4 pr-2">
+          <div className="font-mono">react-aria-gradient-slider</div>
           <a
             href="https://github.com/nkfr26/react-aria-gradient-slider"
             target="_blank"
