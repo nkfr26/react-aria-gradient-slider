@@ -3,7 +3,7 @@ import {
   mergeProps,
   useFocusRing,
   useNumberFormatter,
-  type AriaSliderThumbOptions,
+  type AriaSliderThumbProps,
 } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
 import {
@@ -80,7 +80,7 @@ export function SliderTrack(props: SliderTrackProps) {
 }
 
 type ColorStopProps = RenderProps<{ background: string }> &
-  Except<AriaSliderThumbOptions, "trackRef" | "inputRef"> &
+  AriaSliderThumbProps &
   Except<React.HTMLAttributes<HTMLDivElement>, "children">;
 
 export function ColorStop(props: ColorStopProps) {
