@@ -16,7 +16,7 @@ import {
   Remove,
   SliderTrack,
 } from "../../src/GradientSlider";
-import { ColorStops, Mode } from "../../src/useGradientSliderState";
+import { ColorStops, Mode, SelectedId } from "../../src/useGradientSliderState";
 
 export function App() {
   const [mode, setMode] = useState<Mode>("oklab");
@@ -24,7 +24,7 @@ export function App() {
     { id: crypto.randomUUID(), value: 0, color: parseColor("#ff0000") },
     { id: crypto.randomUUID(), value: 100, color: parseColor("#00ff00") },
   ]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<SelectedId>(null);
   const selectedColorStop = value.find((cs) => cs.id === selectedId);
   return (
     <>

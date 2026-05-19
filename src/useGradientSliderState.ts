@@ -9,6 +9,8 @@ export type ColorStops = [ColorStop, ColorStop, ...ColorStop[]];
 
 export type Mode = "oklab" | "oklch";
 
+export type SelectedId = string | null;
+
 export type GradientSliderStateOptions = Except<
   SliderStateOptions<number[]>,
   "value" | "onChange"
@@ -16,7 +18,7 @@ export type GradientSliderStateOptions = Except<
   value: ColorStops;
   onChange: React.Dispatch<React.SetStateAction<ColorStops>>;
   mode: Mode;
-  setSelectedId?: React.Dispatch<React.SetStateAction<string | null>>;
+  setSelectedId?: React.Dispatch<React.SetStateAction<SelectedId>>;
 };
 
 export function useGradientSliderState(props: GradientSliderStateOptions) {

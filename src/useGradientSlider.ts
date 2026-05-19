@@ -106,6 +106,7 @@ export function useGradientSlider(
         state.setThumbDragging(realTimeTrackDraggingIndex.current, false);
         realTimeTrackDraggingIndex.current = null;
       }
+
       removeGlobalListener(window, "pointerup", onUpTrack, false);
     }
   };
@@ -127,7 +128,6 @@ export function useGradientSlider(
   return {
     ...sliderAria,
     trackProps: mergeProps(
-      // eslint-disable-next-line react-hooks/refs
       {
         ...sliderAria.trackProps,
         onMouseDown: undefined,
