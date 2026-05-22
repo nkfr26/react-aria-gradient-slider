@@ -1,16 +1,16 @@
 {
-  "name": "react-compiler-components-starter",
+  "name": "react-aria-gradient-slider",
   "version": "0.0.0",
-  "description": "A starter for creating a React component library with React Compiler.",
-  "homepage": "https://github.com/author/library#readme",
+  "description": "A gradient slider built with React Aria.",
+  "homepage": "https://github.com/nkfr26/react-aria-gradient-slider#readme",
   "bugs": {
-    "url": "https://github.com/author/library/issues"
+    "url": "https://github.com/nkfr26/react-aria-gradient-slider/issues"
   },
   "license": "MIT",
-  "author": "Author Name <author.name@mail.com>",
+  "author": "nkfr26 <n@rfu.jp>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/author/library.git"
+    "url": "git+https://github.com/nkfr26/react-aria-gradient-slider.git"
   },
   "files": [
     "dist"

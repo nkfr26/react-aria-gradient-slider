@@ -1,4 +1,3 @@
-// export { MyButton } from './MyButton'
 export {
   GradientSliderContext,
   useGradientSliderContext,
