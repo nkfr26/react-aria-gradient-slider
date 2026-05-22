@@ -15,8 +15,10 @@ import {
   GradientSlider,
   Remove,
   SliderTrack,
-} from "../../src/GradientSlider";
-import type { ColorStops, Mode, SelectedId } from "../../src/useGradientSliderState";
+  type ColorStops,
+  type Mode,
+  type SelectedId,
+} from "../../src";
 
 export function App() {
   const [mode, setMode] = useState<Mode>("oklab");

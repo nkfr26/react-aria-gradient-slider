@@ -14,6 +14,7 @@ export {
   useGradientSliderState,
   type ColorStops,
   type Mode,
+  type SelectedId,
   type GradientSliderStateOptions,
 } from "./useGradientSliderState";
 export { type Except, useSlot } from "./utils";
