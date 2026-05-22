@@ -1,10 +1,18 @@
 <!doctype html>
-<html lang="en" class="dark [scrollbar-gutter:stable]">
+<html lang="en" class="[scrollbar-gutter:stable]">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="A gradient slider component built with React Aria" />
     <title>react-aria-gradient-slider</title>
+    <script>
+      !(function () {
+        const e = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+          t = localStorage.getItem("theme"),
+          a = "system" === t || null == t ? e : "light" === t ? "light" : "dark";
+        document.documentElement.classList.add(a);
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>
