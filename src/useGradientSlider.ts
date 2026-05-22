@@ -68,7 +68,7 @@ export function useGradientSlider(
     if (
       trackRef.current &&
       !props.isDisabled &&
-      state.values.every((_, i) => !state.isThumbDragging(i))
+      state.value.every((_, i) => !state.isThumbDragging(i))
     ) {
       const { height, width, top, left } = trackRef.current.getBoundingClientRect();
       const size = isVertical ? height : width;
