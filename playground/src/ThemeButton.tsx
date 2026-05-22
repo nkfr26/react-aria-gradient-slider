@@ -1,7 +1,7 @@
 import { SunIcon, MoonIcon } from "@primer/octicons-react";
 import { useTheme } from "next-themes";
-import { ComponentProps } from "react";
-import { Button } from "./comonents/ui/Button";
+import type { ComponentProps } from "react";
+import { Button } from "./components/ui/Button";
 
 export function ThemeButton({ ...props }: ComponentProps<typeof Button>) {
   const { resolvedTheme, setTheme } = useTheme();

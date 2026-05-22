@@ -4,11 +4,11 @@ import { useState } from "react";
 import { parseColor, Label } from "react-aria-components";
 import { ThemeButton } from "./ThemeButton";
 import { cn } from "./lib/utils";
-import { Button, button } from "./comonents/ui/Button";
-import { ColorPicker } from "./comonents/ui/ColorPicker";
-import { ColorArea } from "./comonents/ui/ColorArea";
-import { ColorSlider } from "./comonents/ui/ColorSlider";
-import { ColorSwatchPicker, ColorSwatchPickerItem } from "./comonents/ui/ColorSwatchPicker";
+import { Button, button } from "./components/ui/Button";
+import { ColorPicker } from "./components/ui/ColorPicker";
+import { ColorArea } from "./components/ui/ColorArea";
+import { ColorSlider } from "./components/ui/ColorSlider";
+import { ColorSwatchPicker, ColorSwatchPickerItem } from "./components/ui/ColorSwatchPicker";
 import {
   ColorInput,
   ColorStop,
@@ -16,7 +16,7 @@ import {
   Remove,
   SliderTrack,
 } from "../../src/GradientSlider";
-import { ColorStops, Mode, SelectedId } from "../../src/useGradientSliderState";
+import type { ColorStops, Mode, SelectedId } from "../../src/useGradientSliderState";
 
 export function App() {
   const [mode, setMode] = useState<Mode>("oklab");

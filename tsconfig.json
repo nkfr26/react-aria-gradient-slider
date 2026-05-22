@@ -8,11 +8,10 @@
     "module": "preserve",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "types": [],
+    "types": ["vite/client"],
     "declaration": true,
     "emitDeclarationOnly": true,
     "verbatimModuleSyntax": true,
     "exactOptionalPropertyTypes": false
-  },
-  "include": ["src"]
+  }
 }
