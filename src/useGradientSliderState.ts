@@ -2,6 +2,7 @@ import { interpolate, formatHex8 } from "culori";
 import { type Color, parseColor, type SliderStateOptions, useSliderState } from "react-stately";
 import type { Except } from "./utils";
 import { snapValueToStep } from "react-stately/private/utils/number";
+import { useRef } from "react";
 
 type ColorStop = { id: string; value: number; color: Color };
 
@@ -13,7 +14,7 @@ export type SelectedId = string | null;
 
 export type GradientSliderStateOptions = Except<
   SliderStateOptions<number[]>,
-  "value" | "onChange"
+  "value" | "defaultValue" | "onChange" | "onChangeEnd"
 > & {
   value: ColorStops;
   onChange: React.Dispatch<React.SetStateAction<ColorStops>>;
@@ -29,6 +30,17 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
       props.onChange((prev) => prev.map((cs, i) => ({ ...cs, value: value[i] })) as ColorStops);
     },
   });
+
+  const draggingRef = useRef(new Set<number>());
+  const isThumbDragging = (index: number) => draggingRef.current.has(index);
+  const setThumbDragging = (index: number, dragging: boolean) => {
+    state.setThumbDragging(index, dragging);
+    if (dragging) {
+      draggingRef.current.add(index);
+    } else {
+      draggingRef.current.delete(index);
+    }
+  };
 
   const privateGetInterpolatedColor = (value: number, filterIndex?: number) => {
     const interpolator = interpolate(
@@ -80,6 +92,8 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
   };
   return {
     ...state,
+    isThumbDragging,
+    setThumbDragging,
     value: props.value,
     onChange: props.onChange,
     mode: props.mode,

@@ -36,6 +36,7 @@ export function App() {
             target="_blank"
             rel="noopener noreferrer"
             className={button({ variant: "quiet", className: "rounded-md" })}
+            aria-label="GitHub Repository"
           >
             <MarkGithubIcon />
           </a>
@@ -55,7 +56,7 @@ export function App() {
               <button onClick={() => setMode((prev) => (prev === "oklab" ? "oklch" : "oklab"))}>
                 <span className="underline">{mode}</span>
               </button>
-              <ThemeButton className="rounded-md" />
+              <ThemeButton className="rounded-md" aria-label="Theme Button" />
             </div>
           </div>
           <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-2.5">
