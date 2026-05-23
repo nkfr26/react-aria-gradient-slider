@@ -2,14 +2,14 @@ import { useRef, type RefObject } from "react";
 import { mergeProps, useLocale, useMove, useSlider, type AriaSliderProps } from "react-aria";
 import { useGlobalListeners } from "react-aria/private/utils/useGlobalListeners";
 import { clamp } from "react-stately/private/utils/number";
-import type { useGradientSliderState } from "./useGradientSliderState";
+import type { GradientSliderState } from "./useGradientSliderState";
 import type { Except } from "./utils";
 
 export type AriaGradientSliderProps = Except<AriaSliderProps, "value" | "onChange">;
 
 export function useGradientSlider(
   props: AriaGradientSliderProps,
-  state: ReturnType<typeof useGradientSliderState>,
+  state: GradientSliderState,
   trackRef: RefObject<Element | null>,
 ) {
   const sliderAria = useSlider(props, state, trackRef);

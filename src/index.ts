@@ -11,6 +11,7 @@ export { useColorStop } from "./useColorStop";
 export { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";
 export {
   useGradientSliderState,
+  type GradientSliderState,
   type ColorStops,
   type Mode,
   type SelectedId,

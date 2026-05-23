@@ -1,7 +1,7 @@
 import { MarkGithubIcon } from "@primer/octicons-react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { parseColor, Label } from "react-aria-components";
+import { parseColor, Label, Link } from "react-aria-components";
 import { ThemeButton } from "./ThemeButton";
 import { cn } from "./lib/utils";
 import { Button, button } from "./components/ui/Button";
@@ -33,15 +33,17 @@ export function App() {
       <header className="flex h-12 items-center border-b border-foreground bg-background">
         <div className="container mx-auto flex items-center justify-between pl-4 pr-2">
           <div className="font-mono">react-aria-gradient-slider</div>
-          <a
+          <Link
             href="https://github.com/nkfr26/react-aria-gradient-slider"
             target="_blank"
             rel="noopener noreferrer"
-            className={button({ variant: "quiet", className: "rounded-md" })}
             aria-label="GitHub Repository"
+            className={(renderProps) =>
+              button({ ...renderProps, variant: "quiet", className: "rounded-md" })
+            }
           >
             <MarkGithubIcon />
-          </a>
+          </Link>
         </div>
       </header>
       <main className="p-8 max-w-xl mx-auto flex flex-col gap-6 font-mono">

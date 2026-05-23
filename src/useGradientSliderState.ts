@@ -106,3 +106,5 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     updateColorStop,
   };
 }
+
+export type GradientSliderState = ReturnType<typeof useGradientSliderState>;

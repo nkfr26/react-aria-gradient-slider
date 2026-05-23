@@ -16,11 +16,15 @@ import {
 } from "react-aria-components";
 import { useColorStop } from "./useColorStop";
 import { type AriaGradientSliderProps, useGradientSlider } from "./useGradientSlider";
-import { useGradientSliderState, type GradientSliderStateOptions } from "./useGradientSliderState";
+import {
+  useGradientSliderState,
+  type GradientSliderState,
+  type GradientSliderStateOptions,
+} from "./useGradientSliderState";
 import { type Except, useSlot } from "./utils";
 
 type GradientSliderContextValue = {
-  state: ReturnType<typeof useGradientSliderState>;
+  state: GradientSliderState;
   trackRef: React.RefObject<HTMLDivElement | null>;
   trackProps: React.HTMLAttributes<HTMLDivElement>;
   background: string;

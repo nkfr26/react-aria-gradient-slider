@@ -1,11 +1,8 @@
 import type { FocusableElement } from "@react-types/shared";
 import { type AriaSliderThumbOptions, useSliderThumb } from "react-aria";
-import type { useGradientSliderState } from "./useGradientSliderState";
+import type { GradientSliderState } from "./useGradientSliderState";
 
-export function useColorStop(
-  opts: AriaSliderThumbOptions,
-  state: ReturnType<typeof useGradientSliderState>,
-) {
+export function useColorStop(opts: AriaSliderThumbOptions, state: GradientSliderState) {
   const sliderThumbAria = useSliderThumb(opts, state);
   const index = opts.index ?? 0;
   const colorStop = state.value[index]!;
