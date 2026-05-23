@@ -22,6 +22,8 @@ export type GradientSliderStateOptions = Except<
   setSelectedId?: React.Dispatch<React.SetStateAction<SelectedId>>;
 };
 
+const MIN_COLOR_STOPS = 2;
+
 export function useGradientSliderState(props: GradientSliderStateOptions) {
   const state = useSliderState({
     ...props,
@@ -78,7 +80,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
   };
 
   const removeColorStop = (id: string) => {
-    if (props.value.length === 2) {
+    if (props.value.length === MIN_COLOR_STOPS) {
       return;
     }
     props.onChange((prev) => prev.filter((cs) => cs.id !== id) as ColorStops);
@@ -102,7 +104,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     getAddedColorStops,
     setThumbPercentColor,
     removeColorStop,
-    canRemoveColorStop: 2 < props.value.length,
+    canRemoveColorStop: MIN_COLOR_STOPS < props.value.length,
     updateColorStop,
   };
 }
