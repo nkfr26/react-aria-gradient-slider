@@ -1,9 +1,10 @@
 import { MarkGithubIcon } from "@primer/octicons-react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { parseColor, Label, Link } from "react-aria-components";
+import { parseColor, Label, Link, Button as RACButton } from "react-aria-components";
 import { ThemeButton } from "./ThemeButton";
 import { cn } from "./lib/utils";
+import { focusRing } from "./components/ui/utils";
 import { Button, button } from "./components/ui/Button";
 import { ColorPicker } from "./components/ui/ColorPicker";
 import { ColorArea } from "./components/ui/ColorArea";
@@ -56,9 +57,12 @@ export function App() {
           <div className="flex items-center justify-between">
             <Label>gradient slider</Label>
             <div className="flex items-center gap-2">
-              <button onClick={() => setMode((prev) => (prev === "oklab" ? "oklch" : "oklab"))}>
+              <RACButton
+                className={(renderProps) => focusRing(renderProps)}
+                onClick={() => setMode((prev) => (prev === "oklab" ? "oklch" : "oklab"))}
+              >
                 <span className="underline">{mode}</span>
-              </button>
+              </RACButton>
               <ThemeButton aria-label="Theme Button" />
             </div>
           </div>
@@ -70,7 +74,12 @@ export function App() {
                   <ColorStop
                     key={cs.id}
                     index={index}
-                    className="top-1/2 size-6 cursor-grab dragging:cursor-grabbing flex items-center justify-center"
+                    className={(renderProps) =>
+                      cn(
+                        "top-1/2 size-6 cursor-grab dragging:cursor-grabbing flex items-center justify-center",
+                        focusRing(renderProps),
+                      )
+                    }
                   >
                     {({ background }) => (
                       <div
