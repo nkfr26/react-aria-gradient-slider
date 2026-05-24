@@ -1,10 +1,5 @@
 import { createContext, useContext, useRef } from "react";
-import {
-  mergeProps,
-  useFocusRing,
-  useNumberFormatter,
-  type AriaSliderThumbProps,
-} from "react-aria";
+import { mergeProps, useFocusRing, useNumberFormatter } from "react-aria";
 import { filterDOMProps } from "react-aria/filterDOMProps";
 import {
   Provider,
@@ -14,7 +9,7 @@ import {
   VisuallyHidden,
   type Color,
 } from "react-aria-components";
-import { useColorStop } from "./useColorStop";
+import { useColorStop, type AriaColorStopProps } from "./useColorStop";
 import { type AriaGradientSliderProps, useGradientSlider } from "./useGradientSlider";
 import {
   useGradientSliderState,
@@ -84,7 +79,7 @@ export function SliderTrack(props: SliderTrackProps) {
 }
 
 type ColorStopProps = RenderProps<{ background: string }> &
-  AriaSliderThumbProps &
+  AriaColorStopProps &
   Except<React.HTMLAttributes<HTMLDivElement>, "children">;
 
 export function ColorStop(props: ColorStopProps) {

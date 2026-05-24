@@ -1,8 +1,17 @@
 import type { FocusableElement } from "@react-types/shared";
-import { type AriaSliderThumbOptions, useSliderThumb } from "react-aria";
+import { type AriaSliderThumbProps, useSliderThumb } from "react-aria";
 import type { GradientSliderState } from "./useGradientSliderState";
+import type { Except } from "./utils";
+import type { RefObject } from "react";
 
-export function useColorStop(opts: AriaSliderThumbOptions, state: GradientSliderState) {
+export type AriaColorStopProps = Except<AriaSliderThumbProps, "index"> & { index: number };
+
+export type AriaColorStopOptions = AriaColorStopProps & {
+  trackRef: RefObject<Element | null>;
+  inputRef: RefObject<HTMLInputElement | null>;
+};
+
+export function useColorStop(opts: AriaColorStopOptions, state: GradientSliderState) {
   const sliderThumbAria = useSliderThumb(opts, state);
   const index = opts.index ?? 0;
   const colorStop = state.value[index]!;
