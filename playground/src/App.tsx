@@ -38,9 +38,7 @@ export function App() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub Repository"
-            className={(renderProps) =>
-              button({ ...renderProps, variant: "quiet", className: "rounded-md" })
-            }
+            className={(renderProps) => button({ ...renderProps, variant: "quiet" })}
           >
             <MarkGithubIcon />
           </Link>
@@ -61,7 +59,7 @@ export function App() {
               <button onClick={() => setMode((prev) => (prev === "oklab" ? "oklch" : "oklab"))}>
                 <span className="underline">{mode}</span>
               </button>
-              <ThemeButton className="rounded-md" aria-label="Theme Button" />
+              <ThemeButton aria-label="Theme Button" />
             </div>
           </div>
           <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-2.5">
@@ -118,7 +116,7 @@ export function App() {
                       isDisabled={isDisabled}
                       onPress={onPress}
                       variant="secondary"
-                      className="rounded-md disabled:cursor-not-allowed"
+                      className="disabled:cursor-not-allowed"
                     >
                       <TrashIcon className="size-4" />
                     </Button>
