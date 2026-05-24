@@ -32,7 +32,7 @@ export function ColorPicker({ label, children, className, ...props }: ColorPicke
       <DialogTrigger>
         <Button className={buttonStyles({ className })}>
           <ColorSwatch />
-          <span>{label}</span>
+          {label && <span>{label}</span>}
         </Button>
         <Popover placement="bottom start">
           <Dialog className="flex flex-col gap-2">

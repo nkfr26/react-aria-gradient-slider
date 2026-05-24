@@ -93,7 +93,7 @@ export function App() {
               </>
             )}
           </SliderTrack>
-          <div className="flex items-center justify-center h-8">
+          <div className="flex justify-center gap-2 h-8">
             {selectedColorStop ? (
               <>
                 <ColorInput id={selectedColorStop.id}>
