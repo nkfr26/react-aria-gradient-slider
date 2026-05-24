@@ -1,6 +1,5 @@
-import type { FocusableElement } from "@react-types/shared";
 import type { RefObject } from "react";
-import { type AriaSliderThumbProps, useSliderThumb } from "react-aria";
+import { type AriaSliderThumbProps, mergeProps, usePress, useSliderThumb } from "react-aria";
 import type { GradientSliderState } from "./useGradientSliderState";
 import type { Except } from "./utils";
 
@@ -17,20 +16,21 @@ export function useColorStop(opts: AriaColorStopOptions, state: GradientSliderSt
   if (colorStop === undefined) {
     throw new Error("ColorStop index is out of bounds");
   }
+  const { pressProps } = usePress({
+    onPressStart: () => {
+      state.setSelectedId?.(colorStop.id);
+    },
+  });
   return {
     ...sliderThumbAria,
     thumbProps: {
-      ...sliderThumbAria.thumbProps,
+      ...mergeProps(sliderThumbAria.thumbProps, pressProps),
       style: {
         ...sliderThumbAria.thumbProps.style,
         zIndex:
           state.getThumbPercent(index + 1) === 1 || state.focusedThumb === index
             ? state.value.length - 1 - index
             : 0,
-      },
-      onPointerDown: (e: React.PointerEvent<FocusableElement>) => {
-        sliderThumbAria.thumbProps.onPointerDown?.(e);
-        state.setSelectedId?.(colorStop.id);
       },
     },
     background: colorStop.color,
