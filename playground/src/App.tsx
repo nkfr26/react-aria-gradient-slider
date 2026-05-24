@@ -46,6 +46,7 @@ export function App() {
           </Link>
         </div>
       </header>
+
       <main className="p-8 max-w-xl mx-auto flex flex-col gap-6 font-mono">
         <GradientSlider
           value={value}
@@ -77,7 +78,7 @@ export function App() {
                       <div
                         style={{ background }}
                         className={cn(
-                          "relative size-5 rounded-full border-3 border-white shadow-[0_0_2px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(0,0,0,0.1)]",
+                          "relative size-5 rounded-full border-3 border-white shadow-[0_0_2px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(0,0,0,0.15)]",
                           selectedId === cs.id &&
                             "outline-1 outline-black -outline-offset-1 dark:-outline-offset-3",
                         )}

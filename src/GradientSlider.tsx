@@ -29,8 +29,8 @@ export const GradientSliderContext = createContext<GradientSliderContextValue | 
 
 export function useGradientSliderContext() {
   const context = useContext(GradientSliderContext);
-  if (!context) {
-    throw new Error();
+  if (context === null) {
+    throw new Error("useGradientSliderContext must be used within a GradientSlider");
   }
   return context;
 }

@@ -1,10 +1,12 @@
 import { interpolate, formatHex8 } from "culori";
-import { type Color, parseColor, type SliderStateOptions, useSliderState } from "react-stately";
-import type { Except } from "./utils";
-import { snapValueToStep } from "react-stately/private/utils/number";
 import { useRef } from "react";
+import { type Color, parseColor, type SliderStateOptions, useSliderState } from "react-stately";
+import { snapValueToStep } from "react-stately/private/utils/number";
+import type { Except } from "./utils";
 
 type ColorStop = { id: string; value: number; color: Color };
+
+const MIN_COLOR_STOPS = 2;
 
 export type ColorStops = [ColorStop, ColorStop, ...ColorStop[]];
 
@@ -21,8 +23,6 @@ export type GradientSliderStateOptions = Except<
   mode: Mode;
   setSelectedId?: React.Dispatch<React.SetStateAction<SelectedId>>;
 };
-
-const MIN_COLOR_STOPS = 2;
 
 export function useGradientSliderState(props: GradientSliderStateOptions) {
   const state = useSliderState({
