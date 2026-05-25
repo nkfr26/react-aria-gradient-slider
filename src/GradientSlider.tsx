@@ -15,6 +15,7 @@ import {
   useGradientSliderState,
   type GradientSliderState,
   type GradientSliderStateOptions,
+  type SelectedId,
 } from "./useGradientSliderState";
 import { type Except, useSlot } from "./utils";
 
@@ -36,10 +37,13 @@ export function useGradientSliderContext() {
 }
 
 type GradientSliderProps = Except<AriaGradientSliderProps, "label"> &
-  Except<GradientSliderStateOptions, "numberFormatter"> &
+  Except<GradientSliderStateOptions, "numberFormatter" | "selectedId" | "setSelectedId"> &
   Except<React.HTMLAttributes<HTMLDivElement>, "onChange"> & {
     formatOptions?: Intl.NumberFormatOptions;
-  };
+  } & (
+    | { selectedId?: never; setSelectedId?: never }
+    | { selectedId: SelectedId; setSelectedId: React.Dispatch<React.SetStateAction<SelectedId>> }
+  );
 
 export function GradientSlider(props: GradientSliderProps) {
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -126,13 +130,24 @@ export function ColorInput({ id, children }: ColorInputProps) {
   return renderProps.children;
 }
 
-type RemoveProps = { id: string } & RenderProps<{ isDisabled: boolean; onPress: () => void }>;
+type RemoveProps = { id: string } & RenderProps<{ onPress: () => void; isDisabled: boolean }>;
 
 export function Remove({ id, children }: RemoveProps) {
   const { state } = useGradientSliderContext();
   const renderProps = useRenderProps({
     children,
-    values: { isDisabled: !state.canRemoveColorStop, onPress: () => state.removeColorStop(id) },
+    values: { onPress: () => state.removeColorStop(id), isDisabled: !state.canRemoveColorStop },
+  });
+  return renderProps.children;
+}
+
+type AddProps = { id?: string } & RenderProps<{ onPress: () => void; isDisabled: boolean }>;
+
+export function Add({ id, children }: AddProps) {
+  const { state } = useGradientSliderContext();
+  const renderProps = useRenderProps({
+    children,
+    values: { onPress: () => state.addColorStop(id), isDisabled: !state.canAddColorStop(id) },
   });
   return renderProps.children;
 }

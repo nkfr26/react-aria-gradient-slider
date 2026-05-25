@@ -21,8 +21,10 @@ export type GradientSliderStateOptions = Except<
   value: ColorStops;
   onChange: React.Dispatch<React.SetStateAction<ColorStops>>;
   mode: Mode;
-  setSelectedId?: React.Dispatch<React.SetStateAction<SelectedId>>;
-};
+} & (
+    | { selectedId?: never; setSelectedId?: never }
+    | { selectedId: SelectedId; setSelectedId: React.Dispatch<React.SetStateAction<SelectedId>> }
+  );
 
 export function useGradientSliderState(props: GradientSliderStateOptions) {
   const state = useSliderState({
@@ -87,6 +89,40 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     props.setSelectedId?.((prev) => (prev === id ? null : prev));
   };
 
+  const getAddableValue = (referenceId?: string): number | null => {
+    const resolvedId = referenceId ?? props.selectedId ?? props.value[0].id;
+    const referenceIndex = props.value.findIndex((cs) => cs.id === resolvedId);
+    const referenceStop = props.value[referenceIndex];
+    if (referenceStop === undefined) {
+      return null;
+    }
+    const nextStop = props.value[referenceIndex + 1];
+    const maxValue = nextStop ? nextStop.value : state.getThumbMaxValue(referenceIndex);
+    const value = snapValueToStep(
+      (referenceStop.value + maxValue) / 2,
+      state.getThumbMinValue(referenceIndex),
+      state.getThumbMaxValue(referenceIndex),
+      state.step,
+    );
+    if (props.value.some((cs) => cs.value === value)) {
+      return null;
+    }
+    return value;
+  };
+
+  const addColorStop = (referenceId?: string) => {
+    const value = getAddableValue(referenceId);
+    if (value === null) {
+      return;
+    }
+    const id = crypto.randomUUID();
+    const color = privateGetInterpolatedColor(value);
+    props.onChange(
+      [...props.value, { id, value, color }].toSorted((a, b) => a.value - b.value) as ColorStops,
+    );
+    props.setSelectedId?.(id);
+  };
+
   const updateColorStop = (id: string, updates: Partial<Except<ColorStop, "id">>) => {
     props.onChange(
       (prev) => prev.map((cs) => (cs.id === id ? { ...cs, ...updates } : cs)) as ColorStops,
@@ -105,6 +141,8 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     setThumbPercentColor,
     removeColorStop,
     canRemoveColorStop: MIN_COLOR_STOPS < props.value.length,
+    addColorStop,
+    canAddColorStop: (referenceId?: string) => getAddableValue(referenceId) !== null,
     updateColorStop,
   };
 }

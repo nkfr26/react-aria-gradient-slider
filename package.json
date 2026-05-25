@@ -73,5 +73,14 @@
     "react": "^19.2.0",
     "react-aria-components": "^1.17.0",
     "react-dom": "^19.2.0"
+  },
+  "inlinedDependencies": {
+    "@internationalized/number": "3.6.6",
+    "@internationalized/string": "3.2.8",
+    "@react-types/shared": "3.34.0",
+    "clsx": "2.1.1",
+    "csstype": "3.2.3",
+    "react-aria": "3.48.0",
+    "react-stately": "3.46.0"
   }
 }

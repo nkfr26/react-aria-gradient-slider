@@ -1,4 +1,4 @@
-import { MarkGithubIcon } from "@primer/octicons-react";
+import { MarkGithubIcon, PlusIcon } from "@primer/octicons-react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { parseColor, Label, Link, Button as RACButton } from "react-aria-components";
@@ -11,6 +11,7 @@ import { ColorArea } from "./components/ui/ColorArea";
 import { ColorSlider } from "./components/ui/ColorSlider";
 import { ColorSwatchPicker, ColorSwatchPickerItem } from "./components/ui/ColorSwatchPicker";
 import {
+  Add,
   ColorInput,
   ColorStop,
   GradientSlider,
@@ -51,11 +52,12 @@ export function App() {
           value={value}
           onChange={setValue}
           mode={mode}
+          selectedId={selectedId}
           setSelectedId={setSelectedId}
           className="flex flex-col gap-2"
         >
           <div className="flex items-center justify-between">
-            <Label>gradient slider</Label>
+            <Label>example</Label>
             <div className="flex items-center gap-2">
               <RACButton
                 className={(renderProps) => focusRing(renderProps)}
@@ -63,7 +65,16 @@ export function App() {
               >
                 <span className="underline">{mode}</span>
               </RACButton>
-              <ThemeButton aria-label="Theme Button" />
+              <div>
+                <ThemeButton aria-label="Theme Button" />
+                <Add>
+                  {({ onPress, isDisabled }) => (
+                    <Button onPress={onPress} isDisabled={isDisabled} variant="quiet">
+                      <PlusIcon />
+                    </Button>
+                  )}
+                </Add>
+              </div>
             </div>
           </div>
           <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-2.5">
@@ -120,10 +131,10 @@ export function App() {
                   )}
                 </ColorInput>
                 <Remove id={selectedColorStop.id}>
-                  {({ isDisabled, onPress }) => (
+                  {({ onPress, isDisabled }) => (
                     <Button
-                      isDisabled={isDisabled}
                       onPress={onPress}
+                      isDisabled={isDisabled}
                       variant="secondary"
                       className="disabled:cursor-not-allowed"
                     >
@@ -142,6 +153,7 @@ export function App() {
           value={value}
           onChange={setValue}
           mode={mode}
+          selectedId={selectedId}
           setSelectedId={setSelectedId}
           className="flex flex-col gap-2"
         >
@@ -173,6 +185,7 @@ export function App() {
           value={value}
           onChange={setValue}
           mode={mode}
+          selectedId={selectedId}
           setSelectedId={setSelectedId}
           className="flex flex-col gap-2"
           aria-label="different style 2"
