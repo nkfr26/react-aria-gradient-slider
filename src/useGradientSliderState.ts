@@ -86,7 +86,16 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
       return;
     }
     props.onChange((prev) => prev.filter((cs) => cs.id !== id) as ColorStops);
-    props.setSelectedId?.((prev) => (prev === id ? null : prev));
+
+    const removedIndex = props.value.findIndex((cs) => cs.id === id);
+    const prevStop = props.value[removedIndex - 1];
+    const nextStop = props.value[removedIndex + 1];
+    props.setSelectedId?.((prev) => {
+      if (prev !== id) return prev;
+      if (prevStop) return prevStop.id;
+      if (nextStop) return nextStop.id;
+      return null;
+    });
   };
 
   const getAddableValue = (referenceId?: string): number | null => {
@@ -135,6 +144,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     value: props.value,
     onChange: props.onChange,
     mode: props.mode,
+    selectedId: props.selectedId,
     setSelectedId: props.setSelectedId,
     getInterpolatedColor: (value: number) => privateGetInterpolatedColor(value),
     getAddedColorStops,

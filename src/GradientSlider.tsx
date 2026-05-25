@@ -95,7 +95,8 @@ export function ColorStop(props: ColorStopProps) {
   );
   const { focusProps, isFocusVisible } = useFocusRing();
   const renderProps = useRenderProps({
-    ...props,
+    children: props.children,
+    className: props.className,
     values: { background: background.toString("hexa"), isFocusVisible },
   });
   return (
