@@ -66,10 +66,15 @@ export function App() {
                 <span className="underline">{mode}</span>
               </RACButton>
               <div>
-                <ThemeButton aria-label="Theme Button" />
+                <ThemeButton variant="quiet" aria-label="Theme Button" />
                 <Add>
                   {({ onPress, isDisabled }) => (
-                    <Button onPress={onPress} isDisabled={isDisabled} variant="quiet">
+                    <Button
+                      onPress={onPress}
+                      isDisabled={isDisabled}
+                      variant="quiet"
+                      aria-label="Add ColorStop"
+                    >
                       <PlusIcon />
                     </Button>
                   )}
