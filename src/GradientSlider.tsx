@@ -133,7 +133,7 @@ export function ColorInput({ id, children }: ColorInputProps) {
 
 type RemoveProps = { id: string } & RenderProps<{ onPress: () => void; isDisabled: boolean }>;
 
-export function Remove({ id, children }: RemoveProps) {
+export function RemoveStop({ id, children }: RemoveProps) {
   const { state } = useGradientSliderContext();
   const renderProps = useRenderProps({
     children,
@@ -144,7 +144,7 @@ export function Remove({ id, children }: RemoveProps) {
 
 type AddProps = { id?: string } & RenderProps<{ onPress: () => void; isDisabled: boolean }>;
 
-export function Add({ id, children }: AddProps) {
+export function AddStop({ id, children }: AddProps) {
   const { state } = useGradientSliderContext();
   const renderProps = useRenderProps({
     children,

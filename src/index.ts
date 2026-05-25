@@ -5,8 +5,8 @@ export {
   SliderTrack,
   ColorStop,
   ColorInput,
-  Remove,
-  Add,
+  RemoveStop,
+  AddStop,
 } from "./GradientSlider";
 export { useColorStop, type AriaColorStopProps, type AriaColorStopOptions } from "./useColorStop";
 export { useGradientSlider, type AriaGradientSliderProps } from "./useGradientSlider";

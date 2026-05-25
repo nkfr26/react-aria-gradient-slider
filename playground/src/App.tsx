@@ -11,11 +11,11 @@ import { ColorArea } from "./components/ui/ColorArea";
 import { ColorSlider } from "./components/ui/ColorSlider";
 import { ColorSwatchPicker, ColorSwatchPickerItem } from "./components/ui/ColorSwatchPicker";
 import {
-  Add,
+  AddStop,
   ColorInput,
   ColorStop,
   GradientSlider,
-  Remove,
+  RemoveStop,
   SliderTrack,
   type ColorStops,
   type Mode,
@@ -67,7 +67,7 @@ export function App() {
               </RACButton>
               <div>
                 <ThemeButton variant="quiet" aria-label="Theme Button" />
-                <Add>
+                <AddStop>
                   {({ onPress, isDisabled }) => (
                     <Button
                       onPress={onPress}
@@ -78,7 +78,7 @@ export function App() {
                       <PlusIcon />
                     </Button>
                   )}
-                </Add>
+                </AddStop>
               </div>
             </div>
           </div>
@@ -135,7 +135,7 @@ export function App() {
                     </ColorPicker>
                   )}
                 </ColorInput>
-                <Remove id={selectedColorStop.id}>
+                <RemoveStop id={selectedColorStop.id}>
                   {({ onPress, isDisabled }) => (
                     <Button
                       onPress={onPress}
@@ -146,7 +146,7 @@ export function App() {
                       <TrashIcon className="size-4" />
                     </Button>
                   )}
-                </Remove>
+                </RemoveStop>
               </>
             ) : (
               <span className="text-sm">select or add a color stop to edit</span>

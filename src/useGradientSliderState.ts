@@ -81,6 +81,12 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     });
   };
 
+  const updateColorStop = (id: string, updates: Partial<Except<ColorStop, "id">>) => {
+    props.onChange(
+      (prev) => prev.map((cs) => (cs.id === id ? { ...cs, ...updates } : cs)) as ColorStops,
+    );
+  };
+
   const removeColorStop = (id: string) => {
     if (props.value.length === MIN_COLOR_STOPS) {
       return;
@@ -131,12 +137,6 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     );
     props.setSelectedId?.(id);
   };
-
-  const updateColorStop = (id: string, updates: Partial<Except<ColorStop, "id">>) => {
-    props.onChange(
-      (prev) => prev.map((cs) => (cs.id === id ? { ...cs, ...updates } : cs)) as ColorStops,
-    );
-  };
   return {
     ...state,
     isThumbDragging,
@@ -149,11 +149,11 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     getInterpolatedColor: (value: number) => privateGetInterpolatedColor(value),
     getAddedColorStops,
     setThumbPercentColor,
+    updateColorStop,
     removeColorStop,
     canRemoveColorStop: MIN_COLOR_STOPS < props.value.length,
     addColorStop,
     canAddColorStop: (referenceId?: string) => getAddableValue(referenceId) !== null,
-    updateColorStop,
   };
 }
 
