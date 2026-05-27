@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import { type AriaSliderThumbProps, mergeProps, usePress, useSliderThumb } from "react-aria";
+import { type AriaSliderThumbProps, mergeProps, useKeyboard, usePress, useSliderThumb } from "react-aria";
 import type { GradientSliderState } from "./useGradientSliderState";
 import type { Except } from "./utils";
 
@@ -21,10 +21,20 @@ export function useColorStop(opts: AriaColorStopOptions, state: GradientSliderSt
       state.setSelectedId?.(colorStop.id);
     },
   });
+  const { keyboardProps } = useKeyboard({
+    onKeyDown: (e) => {
+      if (!/^(Delete|Backspace)$/.test(e.key)) {
+        e.continuePropagation();
+        return;
+      }
+      e.preventDefault();
+      state.removeColorStop(colorStop.id);
+    }
+  });
   return {
     ...sliderThumbAria,
     thumbProps: {
-      ...mergeProps(sliderThumbAria.thumbProps, pressProps),
+      ...mergeProps(sliderThumbAria.thumbProps, pressProps, keyboardProps),
       style: {
         ...sliderThumbAria.thumbProps.style,
         zIndex:
