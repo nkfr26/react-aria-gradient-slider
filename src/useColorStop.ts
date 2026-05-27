@@ -1,5 +1,11 @@
 import type { RefObject } from "react";
-import { type AriaSliderThumbProps, mergeProps, useKeyboard, usePress, useSliderThumb } from "react-aria";
+import {
+  type AriaSliderThumbProps,
+  mergeProps,
+  useKeyboard,
+  usePress,
+  useSliderThumb,
+} from "react-aria";
 import type { GradientSliderState } from "./useGradientSliderState";
 import type { Except } from "./utils";
 
@@ -29,7 +35,7 @@ export function useColorStop(opts: AriaColorStopOptions, state: GradientSliderSt
       }
       e.preventDefault();
       state.removeColorStop(colorStop.id);
-    }
+    },
   });
   return {
     ...sliderThumbAria,
@@ -43,6 +49,6 @@ export function useColorStop(opts: AriaColorStopOptions, state: GradientSliderSt
             : 0,
       },
     },
-    background: colorStop.color,
+    background: colorStop.color.toString("hexa"),
   };
 }

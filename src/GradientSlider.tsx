@@ -97,7 +97,7 @@ export function ColorStop(props: ColorStopProps) {
   const renderProps = useRenderProps({
     children: props.children,
     className: props.className,
-    values: { background: background.toString("hexa"), isFocusVisible },
+    values: { background, isFocusVisible },
   });
   return (
     <div
