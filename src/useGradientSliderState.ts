@@ -1,8 +1,12 @@
-import { interpolate, formatHex8 } from "culori/fn";
+import { interpolate, formatHex8, modeOklab, modeOklch, modeRgb, useMode } from "culori/fn";
 import { useRef } from "react";
 import { type Color, parseColor, type SliderStateOptions, useSliderState } from "react-stately";
 import { snapValueToStep } from "react-stately/private/utils/number";
 import type { Except } from "./utils";
+
+useMode(modeRgb);
+useMode(modeOklab);
+useMode(modeOklch);
 
 type ColorStop = { id: string; value: number; color: Color };
 
