@@ -3,7 +3,7 @@ import { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
-  dts: true,
+  dts: { tsgo: true },
   exports: true,
   unbundle: true,
   platform: "neutral",
