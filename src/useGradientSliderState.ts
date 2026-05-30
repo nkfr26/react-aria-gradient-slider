@@ -1,4 +1,4 @@
-import { interpolate, formatHex8 } from "culori";
+import { interpolate, formatHex8 } from "culori/fn";
 import { useRef } from "react";
 import { type Color, parseColor, type SliderStateOptions, useSliderState } from "react-stately";
 import { snapValueToStep } from "react-stately/private/utils/number";

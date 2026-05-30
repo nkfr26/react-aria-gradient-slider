@@ -5,6 +5,7 @@ import { defineConfig } from "tsdown";
 export default defineConfig({
   dts: true,
   exports: true,
+  unbundle: true,
   platform: "neutral",
   plugins: [pluginBabel({ presets: [reactCompilerPreset()] })],
 });

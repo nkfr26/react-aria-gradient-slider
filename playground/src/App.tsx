@@ -23,13 +23,13 @@ import {
 } from "../../src";
 
 export function App() {
-  const [mode, setMode] = useState<Mode>("oklab");
-  const [value, setValue] = useState<ColorStops>([
+  const [colorStops, setColorStops] = useState<ColorStops>([
     { id: crypto.randomUUID(), value: 0, color: parseColor("#ff0000") },
     { id: crypto.randomUUID(), value: 100, color: parseColor("#00ff00") },
   ]);
+  const [mode, setMode] = useState<Mode>("oklab");
   const [selectedId, setSelectedId] = useState<SelectedId>(null);
-  const selectedColorStop = value.find((cs) => cs.id === selectedId);
+  const selectedColorStop = colorStops.find((cs) => cs.id === selectedId);
   return (
     <>
       <header className="flex h-12 items-center border-b border-foreground bg-background">
@@ -46,11 +46,10 @@ export function App() {
           </Link>
         </div>
       </header>
-
       <main className="p-8 max-w-xl mx-auto flex flex-col gap-6 font-mono">
         <GradientSlider
-          value={value}
-          onChange={setValue}
+          value={colorStops}
+          onChange={setColorStops}
           mode={mode}
           selectedId={selectedId}
           setSelectedId={setSelectedId}
@@ -86,7 +85,7 @@ export function App() {
             {({ background }) => (
               <>
                 <div style={{ background }} className="h-2 w-full rounded-full" />
-                {value.map((cs, index) => (
+                {colorStops.map((cs, index) => (
                   <ColorStop
                     key={cs.id}
                     index={index}
@@ -155,8 +154,8 @@ export function App() {
         </GradientSlider>
 
         <GradientSlider
-          value={value}
-          onChange={setValue}
+          value={colorStops}
+          onChange={setColorStops}
           mode={mode}
           selectedId={selectedId}
           setSelectedId={setSelectedId}
@@ -167,7 +166,7 @@ export function App() {
             {({ background }) => (
               <>
                 <div style={{ background }} className="size-full rounded-sm" />
-                {value.map((cs, index) => (
+                {colorStops.map((cs, index) => (
                   <ColorStop
                     key={cs.id}
                     index={index}
@@ -187,8 +186,8 @@ export function App() {
         </GradientSlider>
 
         <GradientSlider
-          value={value}
-          onChange={setValue}
+          value={colorStops}
+          onChange={setColorStops}
           mode={mode}
           selectedId={selectedId}
           setSelectedId={setSelectedId}
@@ -205,7 +204,7 @@ export function App() {
               )}
             </SliderTrack>
             <div className="w-full relative mt-2">
-              {value.map((cs, index) => (
+              {colorStops.map((cs, index) => (
                 <ColorStop
                   key={cs.id}
                   index={index}
@@ -231,10 +230,10 @@ export function App() {
           </div>
         </GradientSlider>
 
-        <pre>selected index: {value.findIndex((cs) => cs.id === selectedId)}</pre>
+        <pre>selected index: {colorStops.findIndex((cs) => cs.id === selectedId)}</pre>
         <pre>
           {JSON.stringify(
-            value.map((cs) => ({ value: cs.value, color: cs.color.toString("hexa") })),
+            colorStops.map((cs) => ({ value: cs.value, color: cs.color.toString("hexa") })),
             null,
             2,
           )}
