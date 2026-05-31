@@ -2,6 +2,18 @@
   "name": "react-aria-gradient-slider",
   "version": "0.0.0",
   "description": "A gradient slider built with React Aria.",
+  "keywords": [
+    "color",
+    "components",
+    "generator",
+    "gradient",
+    "maker",
+    "oklab",
+    "oklch",
+    "picker",
+    "react-aria",
+    "slider"
+  ],
   "homepage": "https://github.com/nkfr26/react-aria-gradient-slider#readme",
   "bugs": {
     "url": "https://github.com/nkfr26/react-aria-gradient-slider/issues"
