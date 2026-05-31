@@ -3,6 +3,10 @@
 A gradient slider component built with [React Aria](https://react-aria.adobe.com).  
 Supports adding, removing, dragging, and editing color stops with keyboard accessibility.
 
+## Demo
+
+https://react-aria-gradient-slider.vercel.app
+
 ## Features
 
 - Add and drag color stops on a gradient track

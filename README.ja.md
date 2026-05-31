@@ -3,6 +3,10 @@
 [React Aria](https://react-aria.adobe.com) で構築されたグラデーションスライダーコンポーネント。  
 カラーストップの追加・削除・ドラッグ・編集をサポートし、キーボードアクセシビリティにも対応しています。
 
+## デモ
+
+https://react-aria-gradient-slider.vercel.app
+
 ## 特徴
 
 - グラデーショントラック上のカラーストップの追加・ドラッグ
