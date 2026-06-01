@@ -20,7 +20,7 @@ import {
   type ColorStops,
   type Mode,
   type SelectedId,
-} from "../../src";
+} from "react-aria-gradient-slider";
 
 export function App() {
   const [colorStops, setColorStops] = useState<ColorStops>([
@@ -59,7 +59,7 @@ export function App() {
             <Label>example</Label>
             <div className="flex items-center gap-2">
               <RACButton
-                className={(renderProps) => focusRing(renderProps)}
+                className={(renderProps) => cn("hover:opacity-70", focusRing(renderProps))}
                 onClick={() => setMode((prev) => (prev === "oklab" ? "oklch" : "oklab"))}
               >
                 <span className="underline">{mode}</span>

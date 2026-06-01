@@ -5,8 +5,9 @@ import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import basicSsl from "@vitejs/plugin-basic-ssl";
+import { resolve } from "path";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   root: "./playground",
   plugins: [react(), babel({ presets: [reactCompilerPreset()] }), tailwindcss(), basicSsl()],
   test: {
@@ -18,4 +19,10 @@ export default defineConfig({
       headless: true,
     },
   },
-});
+  resolve: {
+    alias:
+      mode === "development" || mode === "test"
+        ? { "react-aria-gradient-slider": resolve(__dirname, "src/index.ts") }
+        : undefined,
+  },
+}));
