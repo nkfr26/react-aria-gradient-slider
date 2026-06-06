@@ -46,6 +46,7 @@ export function App() {
           </Link>
         </div>
       </header>
+
       <main className="p-8 max-w-xl mx-auto flex flex-col gap-6 font-mono">
         <GradientSlider
           value={colorStops}
@@ -53,7 +54,6 @@ export function App() {
           mode={mode}
           selectedId={selectedId}
           setSelectedId={setSelectedId}
-          className="flex flex-col gap-2"
         >
           <div className="flex items-center justify-between">
             <Label>example</Label>
@@ -81,7 +81,7 @@ export function App() {
               </div>
             </div>
           </div>
-          <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mx-2.5">
+          <SliderTrack className="flex items-center h-6 cursor-copy mt-5 mb-2 mx-2.5">
             {({ background }) => (
               <>
                 <div style={{ background }} className="h-2 w-full rounded-full" />
@@ -159,9 +159,10 @@ export function App() {
           mode={mode}
           selectedId={selectedId}
           setSelectedId={setSelectedId}
-          className="flex flex-col gap-2"
         >
-          <Label>different style</Label>
+          <div className="h-8">
+            <Label>different style</Label>
+          </div>
           <SliderTrack className="flex items-center h-6 cursor-copy mx-2.5">
             {({ background }) => (
               <>
@@ -191,42 +192,41 @@ export function App() {
           mode={mode}
           selectedId={selectedId}
           setSelectedId={setSelectedId}
-          className="flex flex-col gap-2"
           aria-label="different style 2"
         >
-          <div className="mb-2 mx-2.5">
+          <div className="mb-4 mx-2.5">
             <SliderTrack className="flex items-center h-4 cursor-copy">
               {({ background }) => (
-                <div
-                  style={{ background }}
-                  className="size-full border border-white shadow-[0_0_1px_rgba(0,0,0,0.4)]"
-                />
+                <>
+                  <div
+                    style={{ background }}
+                    className="size-full border border-white shadow-[0_0_1px_rgba(0,0,0,0.4)]"
+                  />
+                  {colorStops.map((cs, index) => (
+                    <ColorStop
+                      key={cs.id}
+                      index={index}
+                      className="top-[150%] size-6 cursor-grab dragging:cursor-grabbing flex items-center justify-center"
+                    >
+                      {({ background }) => (
+                        <svg
+                          className="size-4 drop-shadow-[0_0_1px_rgba(0,0,0,0.4)]"
+                          viewBox="0 0 16 16"
+                        >
+                          <polygon
+                            points="8,0.5 0.5,13.5 15.5,13.5"
+                            fill={background}
+                            stroke="white"
+                            strokeWidth="1"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      )}
+                    </ColorStop>
+                  ))}
+                </>
               )}
             </SliderTrack>
-            <div className="w-full relative mt-2">
-              {colorStops.map((cs, index) => (
-                <ColorStop
-                  key={cs.id}
-                  index={index}
-                  className="size-6 cursor-grab dragging:cursor-grabbing flex items-center justify-center"
-                >
-                  {({ background }) => (
-                    <svg
-                      className="size-4 drop-shadow-[0_0_1px_rgba(0,0,0,0.4)]"
-                      viewBox="0 0 16 16"
-                    >
-                      <polygon
-                        points="8,0.5 0.5,13.5 15.5,13.5"
-                        fill={background}
-                        stroke="white"
-                        strokeWidth="1"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
-                </ColorStop>
-              ))}
-            </div>
           </div>
         </GradientSlider>
 
