@@ -109,8 +109,8 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
   };
 
   const getAddableValue = (refId?: string): number | null => {
-    const resolvedId = refId ?? props.selectedId ?? props.value[0].id;
-    const refIndex = props.value.findIndex((cs) => cs.id === resolvedId);
+    const id = refId ?? props.selectedId ?? props.value[0].id;
+    const refIndex = props.value.findIndex((cs) => cs.id === id);
     const refStop = props.value[refIndex];
     if (refStop === undefined) {
       return null;
