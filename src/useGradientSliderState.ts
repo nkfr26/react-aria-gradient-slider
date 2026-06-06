@@ -108,19 +108,17 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     });
   };
 
-  const getAddableValue = (referenceId?: string): number | null => {
-    const resolvedId = referenceId ?? props.selectedId ?? props.value[0].id;
-    const referenceIndex = props.value.findIndex((cs) => cs.id === resolvedId);
-    const referenceStop = props.value[referenceIndex];
-    if (referenceStop === undefined) {
+  const getAddableValue = (refId?: string): number | null => {
+    const resolvedId = refId ?? props.selectedId ?? props.value[0].id;
+    const refIndex = props.value.findIndex((cs) => cs.id === resolvedId);
+    const refStop = props.value[refIndex];
+    if (refStop === undefined) {
       return null;
     }
-    const nextStop = props.value[referenceIndex + 1];
-    const maxValue = nextStop ? nextStop.value : state.getThumbMaxValue(referenceIndex);
     const value = snapValueToStep(
-      (referenceStop.value + maxValue) / 2,
-      state.getThumbMinValue(referenceIndex),
-      state.getThumbMaxValue(referenceIndex),
+      (refStop.value + state.getThumbMaxValue(refIndex)) / 2,
+      state.getThumbMinValue(refIndex),
+      state.getThumbMaxValue(refIndex),
       state.step,
     );
     if (props.value.some((cs) => cs.value === value)) {
@@ -129,8 +127,8 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     return value;
   };
 
-  const addColorStop = (referenceId?: string) => {
-    const value = getAddableValue(referenceId);
+  const addColorStop = (refId?: string) => {
+    const value = getAddableValue(refId);
     if (value === null) {
       return;
     }
@@ -157,7 +155,7 @@ export function useGradientSliderState(props: GradientSliderStateOptions) {
     removeColorStop,
     canRemoveColorStop: MIN_COLOR_STOPS < props.value.length,
     addColorStop,
-    canAddColorStop: (referenceId?: string) => getAddableValue(referenceId) !== null,
+    canAddColorStop: (refId?: string) => getAddableValue(refId) !== null,
   };
 }
 
